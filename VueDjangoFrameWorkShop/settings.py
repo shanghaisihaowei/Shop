@@ -293,3 +293,13 @@ else:
 TY_ADMIN_CONFIG = {
     'GEN_APPS': ['goods', 'trade', 'user_operation', 'users']
 }
+
+
+
+TENCENT_SMS_APP_ID = 1400576604
+
+TENCENT_SMS_APP_KEY = "a83ab9b471c3538ab3a07550b4d00117"
+
+TENCENT_SMS_SIGN = "读书空间站"
+
+TEMPLATE_ID = 1138960

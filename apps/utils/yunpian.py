@@ -29,33 +29,13 @@ class YunPian(object):
 
 
 from qcloudsms_py import SmsSingleSender
-from qcloudsms_py.httpclient import HTTPError
 
-import random
-def get_code():
-    code=''
-    for i in range(4):
-        code+=str(random.randint(0,9))
-
-    return code
-
-#
-# class Tencent(object):
-#
-#     # def __init__(self):
-#     #     self.APPID = 1400576604
-#     #     self.APPKEY = "a83ab9b471c3538ab3a07550b4d00117"
-#     #     self.TEMPLATE_ID = 1138960
-#     #     self.SMS_SIGN = "读书空间站"
-import json
 def send_sms(mobile,code):
     ssender = SmsSingleSender(1400576604, 'a83ab9b471c3538ab3a07550b4d00117')
     params = [code, ]
     try:
         result = ssender.send_with_param(86, mobile,
           1138960, params, sign="读书空间站", extend="", ext="")
-        print(result)
-        result=json.dumps(result)
     except Exception as e:
         print('手机号{}，发送短信失败，错误原因是{}'.format(mobile, str(e)))
         return False
