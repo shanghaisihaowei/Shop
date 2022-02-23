@@ -121,8 +121,8 @@ if UseDocker:
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'book_shop',
             'USER': 'root',
-            'PASSWORD': '123456',
-            'HOST': 'mysql',
+            'PASSWORD': 'XIAO123?',
+            'HOST': '127.0.0.1',
             "OPTIONS": {"init_command": "SET default_storage_engine=INNODB;"}
         }
     }
@@ -132,7 +132,7 @@ else:
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'book_shop',
             'USER': 'root',
-            'PASSWORD': '123456',
+            'PASSWORD': 'XIAO123?',
             'HOST': '127.0.0.1',
             "OPTIONS": {"init_command": "SET default_storage_engine=INNODB;"}
         }
@@ -235,8 +235,8 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 # 支付宝相关的key路径
-private_key_path = os.path.join(BASE_DIR, 'apps/trade/keys/private_2048.txt')
-ali_pub_key_path = os.path.join(BASE_DIR, 'apps/trade/keys/alipay_key_2048.txt')
+private_key_path = os.path.join(BASE_DIR, 'apps/trade/keys/app_private_key.txt')
+ali_pub_key_path = os.path.join(BASE_DIR, 'apps/trade/keys/alipay_public_key.txt')
 
 # 第三方登录相关
 SOCIAL_AUTH_WEIBO_KEY = 'foobar'
@@ -258,10 +258,12 @@ QINIU_BUCKET_DOMAIN = 'vueshopstatic.mtianyan.cn'
 # STATICFILES_STORAGE = 'qiniustorage.backends.QiniuStaticStorage'
 
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_ROOT = os.path.join('/root/projects/VueDjangoFrameWorkShop/', 'media')
-MEDIA_URL = 'http://{0}/root/projects/VueDjangoFrameWorkShop/media/'.format(QINIU_BUCKET_DOMAIN)
+# MEDIA_ROOT = os.path.join('/root/projects/VueDjangoFrameWorkShop/', 'media')
+# MEDIA_URL = 'http://{0}/root/projects/VueDjangoFrameWorkShop/media/'.format(QINIU_BUCKET_DOMAIN)
 # STATIC_URL = urljoin('http://{0}'.format(QINIU_BUCKET_DOMAIN), '/static/')
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
 # # sentry设置
 # import os
 # import raven

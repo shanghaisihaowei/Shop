@@ -12,7 +12,7 @@ cryptography==3.1
 defusedxml==0.6.0
 demjson==2.2.4
 diff-match-patch==20200713
-Django==3.1.1
+Django==3.1.14
 django-cors-headers==3.5.0
 django-crispy-forms==1.9.2
 django-filter==2.3.0
@@ -40,13 +40,13 @@ keyring==21.4.0
 Markdown==3.2.2
 MarkupPy==1.14
 MarkupSafe==1.1.1
-mysqlclient==2.0.1
+mysqlclient==2.1.0
 Naked==0.1.31
 oauthlib==3.1.0
 odfpy==1.4.1
 openpyxl==3.0.5
 packaging==20.4
-Pillow==7.2.0
+Pillow==9.0.1
 pkginfo==1.5.0.1
 pycparser==2.20
 pycryptodome==3.9.8
@@ -55,7 +55,9 @@ PyJWT==1.7.1
 pyparsing==2.4.7
 python3-openid==3.2.0
 pytz==2020.1
+pywin32-ctypes==0.2.0
 PyYAML==5.3.1
+qcloudsms-py==0.1.4
 qiniu==7.2.10
 raven==6.10.0
 readme-renderer==27.0

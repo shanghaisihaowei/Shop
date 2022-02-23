@@ -19,7 +19,7 @@ from rest_framework.documentation import include_docs_urls
 from django.contrib import admin
 from django.urls import path, re_path, include
 from django.views.generic import TemplateView
-# from VueDjangoFrameWorkShop.settings import MEDIA_ROOT
+from VueDjangoFrameWorkShop.settings import MEDIA_ROOT
 from goods.views import GoodsListViewSet, CategoryViewset, BannerViewset, IndexCategoryViewset, HotSearchsViewset
 from trade.views import ShoppingCartViewset, OrderViewset, AlipayView
 from user_operation.views import UserFavViewset, LeavingMessageViewset, AddressViewset
@@ -81,7 +81,7 @@ urlpatterns = [
     # path('xadmin_api/user_operation', include('user_operation.xadmin_api_urls')),
     # path('xadmin_api/users', include('users.xadmin_api_urls')),
     # 处理图片显示的url,使用Django自带serve,传入参数告诉它去哪个路径找，我们有配置好的路径MEDIAROOT
-    # re_path('media/(?P<path>.*)', serve, {"document_root": MEDIA_ROOT}),
+    re_path('media/(?P<path>.*)', serve, {"document_root": MEDIA_ROOT}),
 
     # 商品列表页
     # path('goods/', GoodsListView.as_view(),name="goods-list"),
