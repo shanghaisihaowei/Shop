@@ -1,24 +1,32 @@
 <template>
   <div class="banner-warp">
     <swiper :options="swiperOption">
-      <swiper-slide v-for="item in banners" :key="item.goods">
-        <router-link :to="'/app/home/productDetail/'+item.goods" target = _blank> <img :src="item.image" alt="" /></router-link>
+      <swiper-slide
+        v-for="item in banners"
+        :key="item.goods"
+        style="text-align: center"
+      >
+        <router-link
+          :to="'/app/home/productDetail/' + item.goods"
+          target="_blank"
+        >
+          <img style="height: 300px" :src="item.image"
+        /></router-link>
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
   </div>
 </template>
 <style>
-.banner-warp{
-  height:300px;
+.banner-warp {
+  height: 300px;
 }
 </style>
 
-
-
 <script>
-import { swiper, swiperSlide } from 'vue-awesome-swiper'
-import {bannerGoods} from '../../api/api'
+import "swiper/dist/css/swiper.css";
+import { swiper, swiperSlide } from "vue-awesome-swiper";
+import { bannerGoods } from "../../api/api";
 export default {
   components: {
     swiper,
@@ -27,29 +35,30 @@ export default {
   data() {
     return {
       swiperOption: {
-        pagination: '.swiper-pagination',
+        pagination: ".swiper-pagination",
         paginationClickable: true,
-        autoplay: 2500,
+        autoplay: true,
+        speed: 1200,
         autoplayDisableOnInteraction: false,
       },
-      banners:[]
-    }
+      banners: [],
+    };
   },
-  methods:{
-    getBanner(){
+  methods: {
+    getBanner() {
       bannerGoods()
-        .then((response)=> {
-          console.log(response)
+        .then((response) => {
+          console.log(response);
           //跳转到首页页response.body面
-          this.banners = response.data
+          this.banners = response.data;
         })
         .catch(function (error) {
           console.log(error);
         });
-    }
+    },
   },
-  created(){
+  created() {
     this.getBanner();
-  }
-}
+  },
+};
 </script>

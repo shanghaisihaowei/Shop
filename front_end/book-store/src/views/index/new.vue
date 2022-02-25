@@ -2,15 +2,15 @@
   <div>
     <div class="w-max ct bgwh mb30 ovh border-eee">
       <div class="newopro-l fl">
-        <a href=""><img src="http://myphoto.mtianyan.cn/blog/180425/Jg6Cb30Clm.png?imageslim" width="224" height="478"></a>
+        <a href=""><img src="http://192.168.50.29:8000/static/tyadmin/static/100.png" width="224" height="478"></a>
       </div>
       <div class="newopro-r fr">
         <h2 class="index-tt">
           <em class="ft18 c000">最新上架</em>
-          <router-link to="/app/home/list/121" target=_blank><a class="fr c666">更多&gt;&gt;</a></router-link>
+          <!-- <router-link to="/app/home/list/all" target=_blank><a class="fr c666">更多&gt;&gt;</a></router-link> -->
         </h2>
         <ul class="newgoods_fastbuy">
-          <li class="prolist-cent clearfix have_num" v-for="item in newopro">
+          <li class="prolist-cent clearfix have_num" v-for="item in newopro" :key="item.id">
             <div class="prolist-l fl">
               <router-link :to="'/app/home/productDetail/'+item.id" target=_blank><a :title="item.name" class="imgBox">
                 <img :src="item.goods_front_image" style="height: 158px;width: 158px;" class="zom" :alt="item.name">
@@ -38,296 +38,320 @@
 
 </template>
 <script>
-  import {getGoods} from '../../api/api';
+import { getGoods } from "../../api/api";
 
-  export default {
-    data() {
-      return {
-        newopro: {}
-      }
-    },
-    methods: {
-      getOpro() {
-        getGoods({
-          "is_new": "true"
+export default {
+  data() {
+    return {
+      newopro: {},
+    };
+  },
+  methods: {
+    getOpro() {
+      getGoods({
+        is_new: "true",
+      })
+        .then((response) => {
+          //跳转到首页页response.body面
+          this.newopro = response.data.results;
         })
-          .then((response) => {
-            //跳转到首页页response.body面
-            this.newopro = response.data.results
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
+        .catch(function (error) {
+          console.log(error);
+        });
     },
-    created() {
-      this.getOpro();
-    }
-
-  }
+  },
+  created() {
+    this.getOpro();
+  },
+};
 </script>
 <style lang='scss'>
-  html {
-    /*background:#fafafa;*/
-    color: #333;
-    _background-attachment: fixed
-  }
+html {
+  /*background:#fafafa;*/
+  color: #333;
+  _background-attachment: fixed;
+}
 
-  body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, button, input {
-    margin: 0;
-    padding: 0
-  }
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+li,
+button,
+input {
+  margin: 0;
+  padding: 0;
+}
 
-  body, button, input {
-    font: 12px/1.5 "Microsoft YaHei", Tahoma, Helvetica, Arial, simsun
-  }
+body,
+button,
+input {
+  font: 12px/1.5 "Microsoft YaHei", Tahoma, Helvetica, Arial, simsun;
+}
 
-  em, i {
-    font-style: normal
-  }
+em,
+i {
+  font-style: normal;
+}
 
-  ul {
-    list-style: none
-  }
+ul {
+  list-style: none;
+}
 
-  img {
-    border: 0
-  }
+img {
+  border: 0;
+}
 
-  h1 {
-    font-size: 18px
-  }
+h1 {
+  font-size: 18px;
+}
 
-  h2 {
-    font-size: 14px;
-    font-weight: bold
-  }
+h2 {
+  font-size: 14px;
+  font-weight: bold;
+}
 
-  h3 {
-    font-size: 14px;
-    font-weight: 400
-  }
+h3 {
+  font-size: 14px;
+  font-weight: 400;
+}
 
-  h4, h5 {
-    font-size: 12px;
-    font-weight: 400
-  }
+h4,
+h5 {
+  font-size: 12px;
+  font-weight: 400;
+}
 
-  input, button {
-    font-size: 12px;
-    outline: 0;
-    resize: none;
-    color: #333
-  }
+input,
+button {
+  font-size: 12px;
+  outline: 0;
+  resize: none;
+  color: #333;
+}
 
-  button {
-    cursor: pointer
-  }
+button {
+  cursor: pointer;
+}
 
-  a {
-    text-decoration: none;
-    color: #333;
-    -webkit-transition: color .2s;
-    -moz-transition: color .2s;
-    -o-transition: color .2s;
-    -ms-transition: color .2s;
-    transition: color .2s
-  }
+a {
+  text-decoration: none;
+  color: #333;
+  -webkit-transition: color 0.2s;
+  -moz-transition: color 0.2s;
+  -o-transition: color 0.2s;
+  -ms-transition: color 0.2s;
+  transition: color 0.2s;
+}
 
-  a:hover {
-    color: #09c762
-  }
+a:hover {
+  color: #09c762;
+}
 
-  a:focus, area:focus {
-    outline: 0
-  }
+a:focus,
+area:focus {
+  outline: 0;
+}
 
-  ::selection {
-    background: #09c762;
-    color: #fff
-  }
+::selection {
+  background: #09c762;
+  color: #fff;
+}
 
-  canvas {
-    -ms-touch-action: double-tap-zoom
-  }
+canvas {
+  -ms-touch-action: double-tap-zoom;
+}
 
-  /*@font-face {
+/*@font-face {
       font-family:'lizi';
       src:url('http://at.alicdn.com/t/font_1412819191_5742776.eot');
       src:url('http://at.alicdn.com/t/font_1412819191_5742776.eot?#iefix') format('embedded-opentype'),url('http://at.alicdn.com/t/font_1412819191_5742776.woff') format('woff'),url('http://at.alicdn.com/t/font_1412819191_5742776.ttf') format('truetype'),url('http://at.alicdn.com/t/font_1412819191_5742776.svg#iconfont') format('svg')
   }*/
-  .red, a.red, a.red:hover, .pink, a.pink, a.pink:hover {
-    color: #09c762;
-  }
+.red,
+a.red,
+a.red:hover,
+.pink,
+a.pink,
+a.pink:hover {
+  color: #09c762;
+}
 
-  .gray999, .gray, a.gray, a.gray:hover {
-    color: #999;
-  }
+.gray999,
+.gray,
+a.gray,
+a.gray:hover {
+  color: #999;
+}
 
+.w-max {
+  background: #fff;
+  width: 1200px;
+}
 
-  .w-max {
-    background: #fff;
-    width: 1200px;
-  }
+.ct {
+  margin: 0 auto;
+}
 
-  .ct {
-    margin: 0 auto;
-  }
+.mb30 {
+  margin-bottom: 30px;
+}
 
-  .mb30 {
-    margin-bottom: 30px;
-  }
+.ovh {
+  overflow: hidden;
+}
 
-  .ovh {
-    overflow: hidden;
-  }
+.border-eee {
+  border: 1px solid #eee;
+}
 
-  .border-eee {
-    border: 1px solid #eee;
-  }
+.newopro-l {
+  width: 224px;
+  height: 478px;
+}
 
-  .newopro-l {
-    width: 224px;
-    height: 478px;
-  }
+.newopro-l {
+  width: 224px;
+  height: 478px;
+}
 
-  .newopro-l {
-    width: 224px;
-    height: 478px;
-  }
+.newopro-l img {
+  width: 224px;
+  height: 478px;
+}
 
-  .newopro-l img {
-    width: 224px;
-    height: 478px;
-  }
+.fl {
+  float: left;
+}
 
-  .fl {
-    float: left
-  }
+.fr {
+  float: right;
+}
 
-  .fr {
-    float: right
-  }
+.index-tt {
+  line-height: 60px;
+}
 
-  .index-tt {
-    line-height: 60px;
-  }
+.ft18 {
+  font-size: 18px;
+}
 
-  .ft18 {
-    font-size: 18px;
-  }
+.c000 {
+  color: #000;
+}
 
-  .c000 {
-    color: #000;
-  }
+.c333 {
+  color: #333;
+}
 
-  .c333 {
-    color: #333;
-  }
+.prolist-cent {
+  padding: 15px 0 30px;
+  border-bottom: 1px solid #eee;
+}
 
-  .prolist-cent {
-    padding: 15px 0 30px;
-    border-bottom: 1px solid #eee;
-  }
+.prolist-cent:last-child {
+  border-bottom: none;
+}
 
-  .prolist-cent:last-child {
-    border-bottom: none;
-  }
+.clearfix:after,
+.clear_f:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: "\20";
+  clear: both;
+  height: 0;
+}
 
-  .clearfix:after, .clear_f:after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: '\20';
-    clear: both;
-    height: 0;
-  }
+.clearfix {
+  *zoom: 1;
+}
 
-  .clearfix {
-    *zoom: 1;
-  }
+.prolist-l {
+  padding: 0 50px;
+}
 
-  .prolist-l {
-    padding: 0 50px;
-  }
+.prolist-l .imgBox {
+  width: 158px;
+  height: 158px;
+}
 
-  .prolist-l .imgBox {
-    width: 158px;
-    height: 158px;
-  }
+.prolist-r {
+  padding-left: 15px;
+  width: 655px;
+}
 
-  .prolist-r {
-    padding-left: 15px;
-    width: 655px;
-  }
+.prolist-r h3 {
+  line-height: 34px;
+}
 
-  .prolist-r h3 {
-    line-height: 34px;
-  }
+.prolist-r p {
+  line-height: 20px;
+  max-height: 40px;
+  overflow: hidden;
+  color: #999;
+}
 
-  .prolist-r p {
-    line-height: 20px;
-    max-height: 40px;
-    overflow: hidden;
-    color: #999;
-  }
+.prolist-r div {
+  line-height: 56px;
+  padding-top: 12px;
+}
 
-  .prolist-r div {
-    line-height: 56px;
-    padding-top: 12px;
-  }
+.ft14 {
+  font-size: 14px;
+}
 
-  .ft14 {
-    font-size: 14px;
-  }
+.bold {
+  font-weight: bold;
+}
 
-  .bold {
-    font-weight: bold;
-  }
+.p-price {
+  color: #f40;
+}
 
-  .p-price {
-    color: #f40;
-  }
+.p-price i {
+  font-size: 20px;
+}
 
-  .p-price i {
-    font-size: 20px;
-  }
+.p-price em {
+  font-size: 28px;
+  margin-right: 10px;
+}
 
-  .p-price em {
-    font-size: 28px;
-    margin-right: 10px;
-  }
+.p-time .ibg {
+  width: 17px;
+  height: 17px;
+  background-position: 0 -17px;
+  margin-right: 5px;
+}
 
-  .p-time .ibg {
-    width: 17px;
-    height: 17px;
-    background-position: 0 -17px;
-    margin-right: 5px;
-  }
+.ibg {
+  /* background: url(images/indexico.png) no-repeat;*/
+  display: inline-block;
+}
 
-  .ibg {
-    /* background: url(images/indexico.png) no-repeat;*/
-    display: inline-block;
-  }
+.p-buy:hover {
+  color: #fff;
+}
 
-  .p-buy:hover {
-    color: #fff;
-  }
+.p-buy {
+  width: 188px;
+  height: 56px;
+  line-height: 56px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+  text-indent: 78px;
+  background-position: 0 -36px;
+  margin-left: 25px;
+}
 
-  .p-buy {
-    width: 188px;
-    height: 56px;
-    line-height: 56px;
-    color: #fff;
-    font-weight: bold;
-    font-size: 18px;
-    text-indent: 78px;
-    background-position: 0 -36px;
-    margin-left: 25px;
-  }
-
-  .p-buy:hover {
-    text-decoration: none;
-  }
-
+.p-buy:hover {
+  text-decoration: none;
+}
 </style>
