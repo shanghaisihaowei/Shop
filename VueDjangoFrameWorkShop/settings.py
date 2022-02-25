@@ -184,7 +184,7 @@ STATICFILES_DIRS = [
 # MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # 所有与drf相关的设置写在这里面
 REST_FRAMEWORK = {
-    # 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'DATETIME_FORMAT': '%Y-%m-%d %H:%M:%S',
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     # 'PAGE_SIZE': 100,
@@ -210,7 +210,7 @@ JWT_AUTH = {
 
 # 手机号码正则表达式
 REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
-
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880 # 设置上传最大5M
 # 云片网设置
 APIKEY = ''
 
@@ -304,3 +304,11 @@ TENCENT_SMS_APP_KEY = "a83ab9b471c3538ab3a07550b4d00117"
 TENCENT_SMS_SIGN = "读书空间站"
 
 TEMPLATE_ID = 1138960
+
+
+# "http://47.98.167.5:8000/alipay/return/"
+# 支付宝相关
+BASE_URL = 'http://47.98.167.5:8000/'
+# 后台异步回调接口
+NOTIFY_URL = BASE_URL + "alipay/return/"
+ALIPAY_APPID = "2021003114699996"

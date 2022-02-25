@@ -70,6 +70,10 @@ from django.db.models import F
 from rest_framework.viewsets import ViewSet
 from rest_framework.decorators import action
 class DelShoppingCartView(ViewSet):
+    """
+    delete：
+        删除购物记录
+    """
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
     authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
     def get_object(self):
@@ -134,7 +138,7 @@ class OrderViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.Crea
 
 from rest_framework.views import APIView
 from utils.alipay import AliPay
-from VueDjangoFrameWorkShop.settings import ali_pub_key_path, private_key_path
+from VueDjangoFrameWorkShop.settings import ali_pub_key_path, private_key_path,NOTIFY_URL,ALIPAY_APPID
 from rest_framework.response import Response
 
 
@@ -152,12 +156,14 @@ class AlipayView(APIView):
 
         # 3. 生成ALipay对象
         alipay = AliPay(
-            appid="2021003114699996",
-            app_notify_url="http://47.98.167.5:8000/alipay/return/",
+            appid=ALIPAY_APPID,
+            # app_notify_url="http://47.98.167.5:8000/alipay/return/",
+            app_notify_url=NOTIFY_URL,
             app_private_key_path=private_key_path,
             alipay_public_key_path=ali_pub_key_path,  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
             debug=True,  # 默认False,
-            return_url="http://47.98.167.5:8000/alipay/return/"
+            return_url=NOTIFY_URL
+            # return_url="http://47.98.167.5:8000/alipay/return/"
         )
 
         verify_re = alipay.verify(processed_dict, sign)
@@ -193,12 +199,14 @@ class AlipayView(APIView):
 
         # 2. 生成一个Alipay对象
         alipay = AliPay(
-            appid="2021003114699996",
-            app_notify_url="http://47.98.167.5:8000/alipay/return/",
+            appid=ALIPAY_APPID,
+            # app_notify_url="http://47.98.167.5:8000/alipay/return/",
+            app_notify_url=NOTIFY_URL,
             app_private_key_path=private_key_path,
             alipay_public_key_path=ali_pub_key_path,  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
             # debug=True,  # 默认False,
-            return_url="http://47.98.167.5:8000/alipay/return/"
+            # return_url="http://47.98.167.5:8000/alipay/return/"
+            return_url=NOTIFY_URL
         )
 
         # 3. 进行验签，确保这是支付宝给我们的
