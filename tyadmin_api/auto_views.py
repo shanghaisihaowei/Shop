@@ -15,7 +15,7 @@ from tyadmin_api.auto_filters import PermissionFilter, GroupFilter, ContentTypeF
     
 class PermissionViewSet(XadminViewSet):
     serializer_class = PermissionListSerializer
-    queryset = Permission.objects.all().order_by('-pk')
+    queryset = Permission.objects.filter().order_by('-pk')
     filter_class = PermissionFilter
     search_fields = ["name","codename"]
 
@@ -28,7 +28,7 @@ class PermissionViewSet(XadminViewSet):
     
 class GroupViewSet(XadminViewSet):
     serializer_class = GroupListSerializer
-    queryset = Group.objects.all().order_by('-pk')
+    queryset = Group.objects.filter().order_by('-pk')
     filter_class = GroupFilter
     search_fields = ["name"]
 
@@ -41,7 +41,7 @@ class GroupViewSet(XadminViewSet):
     
 class ContentTypeViewSet(XadminViewSet):
     serializer_class = ContentTypeListSerializer
-    queryset = ContentType.objects.all().order_by('-pk')
+    queryset = ContentType.objects.filter().order_by('-pk')
     filter_class = ContentTypeFilter
     search_fields = ["app_label","model"]
 
@@ -54,7 +54,7 @@ class ContentTypeViewSet(XadminViewSet):
     
 class UserProfileViewSet(XadminViewSet):
     serializer_class = UserProfileListSerializer
-    queryset = UserProfile.objects.all().order_by('-pk')
+    queryset = UserProfile.objects.filter().order_by('-pk')
     filter_class = UserProfileFilter
     search_fields = ["password","username","first_name","last_name","name","gender","mobile","email"]
 
@@ -67,7 +67,7 @@ class UserProfileViewSet(XadminViewSet):
     
 class VerifyCodeViewSet(XadminViewSet):
     serializer_class = VerifyCodeListSerializer
-    queryset = VerifyCode.objects.all().order_by('-pk')
+    queryset = VerifyCode.objects.filter().order_by('-pk')
     filter_class = VerifyCodeFilter
     search_fields = ["code","mobile"]
 
@@ -80,7 +80,7 @@ class VerifyCodeViewSet(XadminViewSet):
     
 class GoodsCategoryViewSet(XadminViewSet):
     serializer_class = GoodsCategoryListSerializer
-    queryset = GoodsCategory.objects.all().order_by('-pk')
+    queryset = GoodsCategory.objects.filter().order_by('-pk')
     filter_class = GoodsCategoryFilter
     search_fields = ["name","code"]
 
@@ -93,7 +93,7 @@ class GoodsCategoryViewSet(XadminViewSet):
     
 class GoodsCategoryBrandViewSet(XadminViewSet):
     serializer_class = GoodsCategoryBrandListSerializer
-    queryset = GoodsCategoryBrand.objects.all().order_by('-pk')
+    queryset = GoodsCategoryBrand.objects.filter().order_by('-pk')
     filter_class = GoodsCategoryBrandFilter
     search_fields = ["name"]
 
@@ -106,7 +106,7 @@ class GoodsCategoryBrandViewSet(XadminViewSet):
     
 class GoodsViewSet(XadminViewSet):
     serializer_class = GoodsListSerializer
-    queryset = Goods.objects.all().order_by('-pk')
+    queryset = Goods.objects.filter().order_by('-pk')
     filter_class = GoodsFilter
     search_fields = ["goods_sn","name"]
 
@@ -119,7 +119,7 @@ class GoodsViewSet(XadminViewSet):
     
 class GoodsImageViewSet(XadminViewSet):
     serializer_class = GoodsImageListSerializer
-    queryset = GoodsImage.objects.all().order_by('-pk')
+    queryset = GoodsImage.objects.filter().order_by('-pk')
     filter_class = GoodsImageFilter
     search_fields = []
 
@@ -132,7 +132,7 @@ class GoodsImageViewSet(XadminViewSet):
     
 class BannerViewSet(XadminViewSet):
     serializer_class = BannerListSerializer
-    queryset = Banner.objects.all().order_by('-pk')
+    queryset = Banner.objects.filter().order_by('-pk')
     filter_class = BannerFilter
     search_fields = []
 
@@ -145,7 +145,7 @@ class BannerViewSet(XadminViewSet):
     
 class IndexAdViewSet(XadminViewSet):
     serializer_class = IndexAdListSerializer
-    queryset = IndexAd.objects.all().order_by('-pk')
+    queryset = IndexAd.objects.filter().order_by('-pk')
     filter_class = IndexAdFilter
     search_fields = []
 
@@ -158,7 +158,7 @@ class IndexAdViewSet(XadminViewSet):
     
 class HotSearchWordsViewSet(XadminViewSet):
     serializer_class = HotSearchWordsListSerializer
-    queryset = HotSearchWords.objects.all().order_by('-pk')
+    queryset = HotSearchWords.objects.filter().order_by('-pk')
     filter_class = HotSearchWordsFilter
     search_fields = ["keywords"]
 
@@ -171,7 +171,7 @@ class HotSearchWordsViewSet(XadminViewSet):
     
 class ShoppingCartViewSet(XadminViewSet):
     serializer_class = ShoppingCartListSerializer
-    queryset = ShoppingCart.objects.all().order_by('-pk')
+    queryset = ShoppingCart.objects.filter().order_by('-pk')
     filter_class = ShoppingCartFilter
     search_fields = []
 
@@ -184,7 +184,7 @@ class ShoppingCartViewSet(XadminViewSet):
     
 class OrderInfoViewSet(XadminViewSet):
     serializer_class = OrderInfoListSerializer
-    queryset = OrderInfo.objects.all().order_by('-pk')
+    queryset = OrderInfo.objects.filter().order_by('-pk')
     filter_class = OrderInfoFilter
     search_fields = ["order_sn","nonce_str","trade_no","pay_status","pay_type","post_script","address","signer_name","singer_mobile"]
 
@@ -197,7 +197,7 @@ class OrderInfoViewSet(XadminViewSet):
     
 class OrderGoodsViewSet(XadminViewSet):
     serializer_class = OrderGoodsListSerializer
-    queryset = OrderGoods.objects.all().order_by('-pk')
+    queryset = OrderGoods.objects.filter().order_by('-pk')
     filter_class = OrderGoodsFilter
     search_fields = []
 
@@ -210,7 +210,7 @@ class OrderGoodsViewSet(XadminViewSet):
     
 class UserFavViewSet(XadminViewSet):
     serializer_class = UserFavListSerializer
-    queryset = UserFav.objects.all().order_by('-pk')
+    queryset = UserFav.objects.filter().order_by('-pk')
     filter_class = UserFavFilter
     search_fields = []
 
@@ -223,7 +223,7 @@ class UserFavViewSet(XadminViewSet):
     
 class UserAddressViewSet(XadminViewSet):
     serializer_class = UserAddressListSerializer
-    queryset = UserAddress.objects.all().order_by('-pk')
+    queryset = UserAddress.objects.filter().order_by('-pk')
     filter_class = UserAddressFilter
     search_fields = ["province","city","district","address","signer_name","signer_mobile"]
 
@@ -236,7 +236,7 @@ class UserAddressViewSet(XadminViewSet):
     
 class UserLeavingMessageViewSet(XadminViewSet):
     serializer_class = UserLeavingMessageListSerializer
-    queryset = UserLeavingMessage.objects.all().order_by('-pk')
+    queryset = UserLeavingMessage.objects.filter().order_by('-pk')
     filter_class = UserLeavingMessageFilter
     search_fields = ["subject"]
 
