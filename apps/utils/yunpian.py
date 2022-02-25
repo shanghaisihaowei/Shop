@@ -30,6 +30,20 @@ class YunPian(object):
 
 from qcloudsms_py import SmsSingleSender
 
+def send_sms(mobile,code):
+    # ssender = SmsSingleSender(1400576604, 'a83ab9b471c3538ab3a07550b4d00117')
+    ssender = SmsSingleSender(1400637827, '32fab9e0fc54e3c70b1e3e82a5a6e788')
+    params = [code, ]
+    try:
+        result = ssender.send_with_param(86, mobile,
+          1314402, params, sign="四号位信息科技有限公司", extend="", ext="")
+    except Exception as e:
+        print('手机号{}，发送短信失败，错误原因是{}'.format(mobile, str(e)))
+        return False
+    if result['result'] != 0:
+        print('手机号{}，发送短信失败，错误原因是{}'.format(mobile, result['errmsg']))
+        return False
+    return True
 
 class Tencent(object):
 

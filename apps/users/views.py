@@ -17,7 +17,7 @@ from rest_framework import mixins, permissions, authentication
 from rest_framework import viewsets, status
 from users.models import VerifyCode
 from users.serializers import SmsSerializer, UserRegSerializer, UserDetailSerializer
-from utils.yunpian import YunPian,Tencent
+from utils.yunpian import YunPian,Tencent,send_sms
 
 User = get_user_model()
 
@@ -73,6 +73,7 @@ class SmsCodeViewset(CreateModelMixin, viewsets.GenericViewSet):
         # yun_pian = YunPian(APIKEY)
 
         code = self.generate_code()
+        # sms_status=send_sms(mobile,code)
         tencent_send=Tencent()
         sms_status=tencent_send.send_sms(mobile,code)
         if sms_status == False:
