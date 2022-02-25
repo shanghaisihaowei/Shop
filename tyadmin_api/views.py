@@ -9,7 +9,7 @@ from tyadmin_api.custom import XadminViewSet, custom_exception_handler
 from tyadmin_api.filters import TyAdminSysLogFilter, TyAdminEmailVerifyRecordFilter
 from tyadmin_api.models import TyAdminSysLog, TyAdminEmailVerifyRecord
 from tyadmin_api.serializers import TyAdminSysLogSerializer, TyAdminEmailVerifyRecordSerializer, SysUserChangePasswordSerializer
-
+from rest_framework.exceptions import APIException
 
 class TyAdminSysLogViewSet(XadminViewSet):
     serializer_class = TyAdminSysLogSerializer
@@ -122,10 +122,9 @@ class UserSendCaptchaView(MtyCustomExecView):
 
     def get(self, request, *args, **kwargs):
         email = request.query_params["email"]
-        try:
-            SysUser.objects.get(email=email)
-        except SysUser.DoesNotExist:
-            raise ValidationError({"email": ["该邮箱不存在"]})
+        user_obj=SysUser.objects.filter(email=email).first()
+        if not user_obj:
+            raise APIException({"detail": ["该邮箱不存在"]})
         send_email(email)
         response = {"status": "ok"}
         return JsonResponse(response)

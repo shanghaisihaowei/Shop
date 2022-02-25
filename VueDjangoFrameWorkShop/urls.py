@@ -21,7 +21,7 @@ from django.urls import path, re_path, include
 from django.views.generic import TemplateView
 from VueDjangoFrameWorkShop.settings import MEDIA_ROOT
 from goods.views import GoodsListViewSet, CategoryViewset, BannerViewset, IndexCategoryViewset, HotSearchsViewset
-from trade.views import ShoppingCartViewset, OrderViewset, AlipayView
+from trade.views import ShoppingCartViewset, OrderViewset, AlipayView,DelShoppingCartView
 from user_operation.views import UserFavViewset, LeavingMessageViewset, AddressViewset
 from users.views import SmsCodeViewset, UserViewset, IndexView
 # from goods.views import GoodsListView,
@@ -57,6 +57,7 @@ router.register(r'address', AddressViewset, basename="address")
 
 # 购物车
 router.register(r'shopcarts', ShoppingCartViewset, basename="shopcarts")
+# router.register(r'delshopcarts', DelShoppingCartView, basename="delshopcarts")
 
 # 订单相关url
 router.register(r'orders', OrderViewset, basename="orders")
@@ -96,7 +97,7 @@ urlpatterns = [
 
     # drf自带的token授权登录,获取token需要向该地址post数据
     path('api-token-auth/', views.obtain_auth_token),
-
+    path('delshopcarts/', DelShoppingCartView.as_view({'delete': 'destroy'})),
     # jwt的token认证
     path('login/', obtain_jwt_token),
 

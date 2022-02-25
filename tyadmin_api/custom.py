@@ -28,11 +28,29 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 
 def custom_exception_handler(exc, context):
     response = exception_handler(exc, context)
-    if isinstance(exc, ValidationError):
+    if response is None:
+        # 记录服务器异常
+        print('视图%s出错，错误原因：%s' % (str(context['view']),exc))
+
+        response = Response({'detail': '服务器异常，请重试...'})
+    elif isinstance(exc, ValidationError):
         response.data = {"fields_errors": response.data}
+    # else:
+    #     response.data = {"none_fields_errors": response.data}
     else:
-        response.data = {"none_fields_errors": response.data}
+        try:
+            msg = response.data['detail']
+        except Exception:
+            msg = '未知异常'
+        response = Response({'code': 998, 'detail': msg})
     return response
+    # if isinstance(exc, ValidationError):
+    #     response.data = {"fields_errors": response.data}
+    # else:
+    #     response.data = {"none_fields_errors": response.data}
+    # return response
+
+
 
 
 class GenericViewSet(ViewSetMixin, GenericAPIView):

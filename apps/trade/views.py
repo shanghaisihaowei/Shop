@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from trade.models import ShoppingCart, OrderInfo, OrderGoods
 from trade.serializers import ShopCartSerializer, ShopCartDetailSerializer, OrderSerializer, OrderDetailSerializer
 from utils.permissions import IsOwnerOrReadOnly
-
+from goods.models import Goods
 
 class ShoppingCartViewset(viewsets.ModelViewSet):
     """
@@ -37,6 +37,7 @@ class ShoppingCartViewset(viewsets.ModelViewSet):
 
     # 库存数+1
     def perform_destroy(self, instance):
+        print(self.request.data)
         goods = instance.goods
         goods.goods_num += instance.nums
         goods.save()
@@ -56,13 +57,41 @@ class ShoppingCartViewset(viewsets.ModelViewSet):
         goods.save()
 
     def get_serializer_class(self):
-        if self.action == 'list':
+        if self.action in ['list',]:
             return ShopCartDetailSerializer
         else:
             return ShopCartSerializer
 
     def get_queryset(self):
         return ShoppingCart.objects.filter(user=self.request.user)
+
+
+from django.db.models import F
+from rest_framework.viewsets import ViewSet
+from rest_framework.decorators import action
+class DelShoppingCartView(ViewSet):
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    def get_object(self):
+        return self.request.user
+    # def get_queryset(self):
+    #     return ShoppingCart.objects.filter(user=self.request.user)
+    @action(methods='DELETE', detail=False)
+    def destroy(self, request):
+        instance = self.get_object()
+        print(instance)
+        shop_carts = ShoppingCart.objects.filter(user=instance)
+        print(shop_carts)
+        for shop_cart in shop_carts:
+            print(shop_cart.goods)
+            goods_obj = Goods.objects.filter(id=shop_cart.goods.id).first()
+            # goods_obj.goods = F('goods')+shop_cart.goods
+            goods_obj.goods_num = F('goods_num')+shop_cart.nums
+            goods_obj.save()
+
+            shop_cart.delete()
+        return Response(status=204)
+
 
 
 class OrderViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin,
