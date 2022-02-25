@@ -45,5 +45,27 @@ def send_sms(mobile,code):
         return False
     return True
 
+class Tencent(object):
+
+    def __init__(self):
+        self.APPID = 1400637827
+        self.APPKEY = '32fab9e0fc54e3c70b1e3e82a5a6e788'
+        self.TEMPLATE_ID = 1314402
+        self.SMS_SIGN = "四号位信息科技有限公司"
+
+    def send_sms(self, mobile,code):
+        ssender = SmsSingleSender(self.APPID, self.APPKEY)
+        params = [code, ]
+        try:
+            result = ssender.send_with_param(86, mobile,
+                                             self.TEMPLATE_ID, params, sign=self.SMS_SIGN, extend="", ext="")
+        except Exception as e:
+            print('手机号{}，发送短信失败，错误原因是{}'.format(mobile, str(e)))
+            return False
+        if result['result'] != 0:
+            print('手机号{}，发送短信失败，错误原因是{}'.format(mobile, result['errmsg']))
+            return False
+        return True
+
 
 

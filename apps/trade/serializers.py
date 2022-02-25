@@ -1,7 +1,7 @@
 # encoding: utf-8
 import time
 
-from VueDjangoFrameWorkShop.settings import private_key_path, ali_pub_key_path
+from VueDjangoFrameWorkShop.settings import private_key_path, ali_pub_key_path,NOTIFY_URL,ALIPAY_APPID
 from goods.models import Goods
 from goods.serializers import GoodsSerializer
 from rest_framework import serializers
@@ -78,12 +78,14 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def get_alipay_url(self, obj):
         alipay = AliPay(
-            appid="2021003114699996",
-            app_notify_url="http://47.98.167.5:8000/alipay/return/",
+            appid=ALIPAY_APPID,
+            # app_notify_url="http://47.98.167.5:8000/alipay/return/",
+            app_notify_url=NOTIFY_URL,
             app_private_key_path=private_key_path,
             alipay_public_key_path=ali_pub_key_path,  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
             # debug=True,  # 默认False,
-            return_url="http://47.98.167.5:8000/alipay/return/"
+            # return_url="http://47.98.167.5:8000/alipay/return/"
+            return_url=NOTIFY_URL
         )
 
         url = alipay.direct_pay(
@@ -122,12 +124,14 @@ class OrderDetailSerializer(serializers.ModelSerializer):
 
     def get_alipay_url(self, obj):
         alipay = AliPay(
-            appid="2021003114699996",
-            app_notify_url="http://47.98.167.5:8000/alipay/return/",
+            appid=ALIPAY_APPID,
+            # app_notify_url="http://47.98.167.5:8000/alipay/return/",
+            app_notify_url=NOTIFY_URL,
             app_private_key_path=private_key_path,
             alipay_public_key_path=ali_pub_key_path,  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
             # debug=True,  # 默认False,
-            return_url="http://47.98.167.5:8000/alipay/return/"
+            # return_url="http://47.98.167.5:8000/alipay/return/"
+            return_url=NOTIFY_URL
         )
 
         url = alipay.direct_pay(
