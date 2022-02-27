@@ -90,7 +90,7 @@ class SmsSendCodeView(CreateModelMixin,viewsets.GenericViewSet):
             raise APIException({"detail": "距离上一次发送未超过60s"})
         code = self.generate_code()
         res = SmsCode()
-        sms_status = res.send(username, code)
+        sms_status = res.send(username,'1316599',code)  # 登录验证码
         print(sms_status)
         if sms_status != 'Ok':
             return Response({
@@ -155,7 +155,7 @@ class SmsCodeViewset(CreateModelMixin, viewsets.GenericViewSet):
         # tencent_send=Tencent()
         # sms_status=tencent_send.send_sms(mobile,code)
         res = SmsCode()
-        sms_status = res.send(mobile, code)
+        sms_status = res.send(mobile,"1314402", code) # 注册验证码
         print(sms_status)
         if sms_status != 'Ok':
             return Response({

@@ -47,11 +47,11 @@ class SmsCode:
     self.req.SmsSdkAppid = '1400637827'
     self.req.Sign = "四号位信息科技有限公司"
     # self.req.TemplateID =  "1314402"
-  def send(self, phone_number, sms_code):
+  def send(self, phone_number,templateid, sms_code):
 
     try:
       self.req.PhoneNumberSet = [f"+86{phone_number}".strip()]
-      self.req.TemplateID = "1314402"
+      self.req.TemplateID = templateid # "1314402"
       self.req.TemplateParamSet = [sms_code]
       resp = self.client.SendSms(self.req)
       return resp.SendStatusSet[0].Code
