@@ -94,13 +94,13 @@ class SmsSendCodeView(CreateModelMixin,viewsets.GenericViewSet):
         print(sms_status)
         if sms_status != 'Ok':
             return Response({
-                "mobile": '短信发送失败'
+                "detail": '短信发送失败'
             }, status=status.HTTP_400_BAD_REQUEST)
         else:
             code_record = VerifyCode(code=code, mobile=username)
             code_record.save()
             return Response({
-                "username": username
+                "detail": '短信发送成功','username':username
             }, status=status.HTTP_201_CREATED)
 
 

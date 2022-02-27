@@ -11,7 +11,7 @@ from rest_framework import serializers
 from rest_framework.validators import ValidationError
 from django.contrib.auth import get_user_model
 from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
-
+from rest_framework.exceptions import APIException
 User = get_user_model()
 
 
@@ -49,12 +49,12 @@ class UserCodeLoginModelSerializer(serializers.ModelSerializer):
             # 有效期为五分钟。
             five_mintes_ago = datetime.now() - timedelta(hours=0, minutes=5, seconds=0)
             if five_mintes_ago > last_record.add_time:
-                raise serializers.ValidationError("验证码过期")
+                raise APIException({'detail':"验证码过期",'code':404})# serializers.ValidationError(detail="验证码过期",code=404)
 
             if last_record.code != code:
-                raise serializers.ValidationError("验证码错误")
+                raise  APIException({'detail':"验证码错误",'code':404})# serializers.ValidationError(detail="验证码错误",code=404)
         else:
-            raise serializers.ValidationError("验证码错误")
+            raise  APIException({'detail':"验证码错误",'code':404})# raise serializers.ValidationError(detail="验证码错误",code=404)
     def _get_user(self,attrs):
         username=attrs.get('username')
         if re.match(r'^1[3-9][0-9]{9}$', username):
