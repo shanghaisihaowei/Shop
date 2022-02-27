@@ -23,7 +23,7 @@ from VueDjangoFrameWorkShop.settings import MEDIA_ROOT
 from goods.views import GoodsListViewSet, CategoryViewset, BannerViewset, IndexCategoryViewset, HotSearchsViewset
 from trade.views import ShoppingCartViewset, OrderViewset, AlipayView,DelShoppingCartView
 from user_operation.views import UserFavViewset, LeavingMessageViewset, AddressViewset
-from users.views import SmsCodeViewset, UserViewset, IndexView
+from users.views import SmsCodeViewset, UserViewset, IndexView,MobileView,SmsSendCodeView,CodeLoginViewSet
 # from goods.views import GoodsListView,
 # from goods.views_base import GoodsListView
 from rest_framework.routers import DefaultRouter
@@ -98,6 +98,14 @@ urlpatterns = [
     # drf自带的token授权登录,获取token需要向该地址post数据
     path('api-token-auth/', views.obtain_auth_token),
     path('delshopcarts/', DelShoppingCartView.as_view({'delete': 'destroy'})),
+
+    # 查看手机号是否存在
+    path('check_users/', MobileView.as_view({"get": "mobile"})),
+    # 发送短信验证码
+    path('get_code/', SmsSendCodeView.as_view({"post": "create"})),
+    # 验证码登录
+    path('code_login/', CodeLoginViewSet.as_view({"post": "create"})),
+
     # jwt的token认证
     path('login/', obtain_jwt_token),
 

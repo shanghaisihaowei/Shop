@@ -8,11 +8,77 @@ from datetime import datetime, timedelta
 from VueDjangoFrameWorkShop.settings import REGEX_MOBILE
 from users.models import VerifyCode
 from rest_framework import serializers
+from rest_framework.validators import ValidationError
 from django.contrib.auth import get_user_model
-
+from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
+from rest_framework.exceptions import APIException
 User = get_user_model()
 
 
+class SmsModelSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(max_length=11)
+    code = serializers.CharField(read_only=True)
+    class Meta:
+        model = User
+        fields = ("username",'code')
+
+
+class UserCodeLoginModelSerializer(serializers.ModelSerializer):
+    '''
+    用户验证码登录序列化类
+    '''
+    code = serializers.CharField(required=True, write_only=True, max_length=4, min_length=4, label="验证码",
+                                 error_messages={
+                                     "blank": "请输入验证码",
+                                     "required": "请输入验证码",
+                                     "max_length": "验证码格式错误",
+                                     "min_length": "验证码格式错误"
+                                 },
+                                 help_text="验证码")
+    username = serializers.CharField(label="用户名", help_text="用户名", required=True)
+    class Meta:
+        model = User
+        fields = ("code", "username")
+
+    def validate_code(self, code):
+        # 验证码在数据库中是否存在，用户从前端post过来的值都会放入initial_data里面，排序(最新一条)。
+        verify_records = VerifyCode.objects.filter(mobile=self.initial_data["username"]).order_by("-add_time")
+        if verify_records:
+            # 获取到最新一条
+            last_record = verify_records[0]
+            # 有效期为五分钟。
+            five_mintes_ago = datetime.now() - timedelta(hours=0, minutes=5, seconds=0)
+            if five_mintes_ago > last_record.add_time:
+                raise APIException({'detail':"验证码过期",'code':404})# serializers.ValidationError(detail="验证码过期",code=404)
+
+            if last_record.code != code:
+                raise  APIException({'detail':"验证码错误",'code':404})# serializers.ValidationError(detail="验证码错误",code=404)
+        else:
+            raise  APIException({'detail':"验证码错误",'code':404})# raise serializers.ValidationError(detail="验证码错误",code=404)
+    def _get_user(self,attrs):
+        username=attrs.get('username')
+        if re.match(r'^1[3-9][0-9]{9}$', username):
+            user = User.objects.filter(mobile=username).first()
+            if user:
+                return user
+        else:
+            raise ValidationError('用户名或密码错误')
+
+    def validate(self, attrs):
+
+        user = self._get_user(attrs)
+        token = self._get_token(user)
+        # 上下文，是个字典
+        self.context['token'] = token
+        self.context['username'] = user.username
+        del attrs['code']
+        return attrs
+
+
+    def _get_token(self, user):
+        payload = jwt_payload_handler(user)
+        token = jwt_encode_handler(payload)
+        return token
 class SmsSerializer(serializers.Serializer):
     mobile = serializers.CharField(max_length=11)
 

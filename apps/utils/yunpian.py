@@ -28,44 +28,41 @@ class YunPian(object):
 #     yun_pian.send_sms("2017", "18092671458")
 
 
-from qcloudsms_py import SmsSingleSender
+from tencentcloud.common import credential
+from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentCloudSDKException
+# 导入 SMS 模块的client models
+from tencentcloud.sms.v20190711 import sms_client, models
+# 导入可选配置类
+from tencentcloud.common.profile.client_profile import ClientProfile
+from tencentcloud.common.profile.http_profile import HttpProfile
 
-def send_sms(mobile,code):
-    # ssender = SmsSingleSender(1400576604, 'a83ab9b471c3538ab3a07550b4d00117')
-    ssender = SmsSingleSender(1400637827, '32fab9e0fc54e3c70b1e3e82a5a6e788')
-    params = [code, ]
+
+
+class SmsCode:
+
+  def __init__(self):
+    self.cred = credential.Credential('AKID9k59wTjiQr2xby5vUmoa5JHzQaT5QUHo', "HH0SdXBXdRyEExPaU8VbQUHn1zg6F7j3")
+    self.client = sms_client.SmsClient(self.cred, "ap-guangzhou")
+    self.req = models.SendSmsRequest()
+    self.req.SmsSdkAppid = '1400637827'
+    self.req.Sign = "四号位信息科技有限公司"
+    # self.req.TemplateID =  "1314402"
+  def send(self, phone_number,templateid, sms_code):
+
     try:
-        result = ssender.send_with_param(86, mobile,
-          1314402, params, sign="四号位信息科技有限公司", extend="", ext="")
-    except Exception as e:
-        print('手机号{}，发送短信失败，错误原因是{}'.format(mobile, str(e)))
-        return False
-    if result['result'] != 0:
-        print('手机号{}，发送短信失败，错误原因是{}'.format(mobile, result['errmsg']))
-        return False
-    return True
+      self.req.PhoneNumberSet = [f"+86{phone_number}".strip()]
+      self.req.TemplateID = templateid # "1314402"
+      self.req.TemplateParamSet = [sms_code]
+      resp = self.client.SendSms(self.req)
+      return resp.SendStatusSet[0].Code
+    except TencentCloudSDKException as err:
+      print(err)
 
-class Tencent(object):
 
-    def __init__(self):
-        self.APPID = 1400637827
-        self.APPKEY = '32fab9e0fc54e3c70b1e3e82a5a6e788'
-        self.TEMPLATE_ID = 1314402
-        self.SMS_SIGN = "四号位信息科技有限公司"
-
-    def send_sms(self, mobile,code):
-        ssender = SmsSingleSender(self.APPID, self.APPKEY)
-        params = [code, ]
-        try:
-            result = ssender.send_with_param(86, mobile,
-                                             self.TEMPLATE_ID, params, sign=self.SMS_SIGN, extend="", ext="")
-        except Exception as e:
-            print('手机号{}，发送短信失败，错误原因是{}'.format(mobile, str(e)))
-            return False
-        if result['result'] != 0:
-            print('手机号{}，发送短信失败，错误原因是{}'.format(mobile, result['errmsg']))
-            return False
-        return True
+if __name__ == '__main__':
+    res=SmsCode()
+    q=res.send('','1111')
+    print(q)
 
 
 
