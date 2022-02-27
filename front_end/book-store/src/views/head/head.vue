@@ -602,7 +602,7 @@ img {
 .hd_bar ul#userinfo-bar li .vipico {
   width: 12px;
   height: 17px;
-  /*background:url(http://47.98.167.5:8000/images%5Chead/wap.png) no-repeat;*/
+  /*background:url(http://47.98.167.5/images%5Chead/wap.png) no-repeat;*/
   float: left;
   margin-right: 4px;
   font-size: 18px;
@@ -2414,7 +2414,7 @@ a.more-btn,
 }
 
 .week-hot .item .hot-ico {
-  /* background:url(http://47.98.167.5:8000/images%5Chead/hot-ico-bg.png) -48px 0 no-repeat;*/
+  /* background:url(http://47.98.167.5/images%5Chead/hot-ico-bg.png) -48px 0 no-repeat;*/
   display: block;
   width: 40px;
   height: 40px;

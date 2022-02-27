@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let local_host = 'http://192.168.50.29:8000'
+let local_host = 'http://47.98.167.5'
 export const currentLo = params => { return axios.post(`${local_host}/currentLoc/`, params) }
 //清空购物车
 export const clearAll = params => { return axios.delete(`${local_host}/delshopcarts/`) }
@@ -22,7 +22,9 @@ export const getCategory = params => {
         return axios.get(`${local_host}/categories/`, params);
     }
 };
-
+export const checkUser = params => { return axios.get(`${local_host}/check_users/?username=${params}`) }
+export const getCode = params => { return axios.post(`${local_host}/get_code/`, params) }
+export const codeLogin = params => { return axios.post(`${local_host}/code_login/`, params) }
 
 //获取热门搜索关键词
 export const getHotSearch = params => { return axios.get(`${local_host}/hotsearchs/`) }

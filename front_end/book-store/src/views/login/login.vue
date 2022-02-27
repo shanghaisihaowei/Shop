@@ -3,40 +3,125 @@
     <div class="c-box bg-box">
       <div class="login-box clearfix" style="margin-top: 10px">
         <div class="fr form-box">
-          <h2>帐号登录</h2>
-          <form id="jsLoginForm" autocomplete="off">
+          <h2 style="margin: 0; font-size: 18px">用户登录</h2>
+          <div
+            style="
+              display: flex;
+              justify-content: center;
+              font-size: 16px;
+              margin: 50px 0;
+              cursor: pointer;
+            "
+          >
+            <div
+              @click="loginMode = 'password'"
+              :style="{ color: loginMode === 'password' ? '#1370ee' : '' }"
+            >
+              密码登录
+            </div>
+            <div style="margin: 0 10px">|</div>
+            <div
+              @click="loginMode = 'code'"
+              :style="{ color: loginMode === 'code' ? '#1370ee' : '' }"
+            >
+              验证码登录
+            </div>
+          </div>
+          <div id="jsLoginForm" autocomplete="off">
             <input
               type="hidden"
               name="csrfmiddlewaretoken"
               value="ywSlOHdiGsK6VFB6iyhnB1B30khmz8SU"
             />
-
-            <div class="form-group marb20">
-              <label>用&nbsp;户&nbsp;名</label>
-              <input
-                name="account_l"
-                id="account_l"
-                type="text"
-                v-model="userName"
-                placeholder="手机号/账号"
-                @focus="clearError"
-              />
+            <!-- 密码登录 -->
+            <div v-show="loginMode === 'password'">
+              <div class="form-group marb20">
+                <label>用&nbsp;户&nbsp;名</label>
+                <input
+                  name="account_l"
+                  id="account_l"
+                  type="text"
+                  v-model="userName"
+                  placeholder="手机号/账号"
+                  @focus="clearError"
+                />
+              </div>
+              <p class="error-text" v-show="userNameError">
+                {{ userNameError }}
+              </p>
+              <div class="form-group marb8">
+                <label>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+                <input
+                  name="password_l"
+                  id="password_l2"
+                  type="password"
+                  v-model="parseWord"
+                  placeholder="请输入您的密码"
+                  @focus="clearError"
+                />
+              </div>
+              <p class="error-text" v-show="parseWordError">
+                {{ parseWordError }}
+              </p>
             </div>
-            <p class="error-text" v-show="userNameError">{{ userNameError }}</p>
-            <div class="form-group marb8">
-              <label>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</label>
-              <input
-                name="password_l"
-                id="password_l"
-                type="password"
-                v-model="parseWord"
-                placeholder="请输入您的密码"
-                @focus="clearError"
-              />
+            <!-- 验证码登录 -->
+            <div v-show="loginMode === 'code'">
+              <div class="form-group marb20" style="margin: 0">
+                <label>手&nbsp;机&nbsp;号</label>
+                <input
+                  name="account_l"
+                  id="account_l2"
+                  type="text"
+                  v-model="phoneNum"
+                  placeholder="请输入您的手机号"
+                  @focus="clearError"
+                />
+              </div>
+              <p class="error-text" v-show="phoneError">
+                {{ phoneError }}
+              </p>
+              <div style="display: flex">
+                <div
+                  class="form-group marb8"
+                  style="
+                    border-top-right-radius: 0;
+                    border-bottom-right-radius: 0;
+                  "
+                >
+                  <label>验&nbsp;证&nbsp;码</label>
+                  <div style="display: flex; height: 100%">
+                    <input
+                      style="border: 0; padding: 7px 10px"
+                      name="password_l"
+                      id="password_l"
+                      type="password"
+                      v-model="code"
+                      placeholder="请输入您的验证码"
+                      @focus="clearError"
+                    />
+                  </div>
+                </div>
+                <button
+                  @click="getCode()"
+                  :disabled="disabled"
+                  style="
+                    width: 120px;
+                    height: 40px;
+                    background: #1370ee;
+                    color: white;
+                    border: 0;
+                    margin-top: 20px;
+                    border-top-right-radius: 3px;
+                    border-bottom-right-radius: 3px;
+                  "
+                >
+                  {{ buttonText }}
+                </button>
+              </div>
+              <p class="error-text" v-show="codeError">
+                {{ codeError }}
+              </p>
             </div>
-            <p class="error-text" v-show="parseWordError">
-              {{ parseWordError }}
-            </p>
             <!--        <div class="error btns login-form-tips" id="jsLoginTips" v-show="error"><p>用户名或密码错误</p></div> -->
             <div class="auto-box marb38"></div>
             <p class="error-text" v-show="error">{{ error }}</p>
@@ -46,9 +131,9 @@
               id="jsLoginBtn"
               type="button"
               @click="login"
-              value="立即登录 &gt; "
+              value="立即登录"
             />
-          </form>
+          </div>
           <!-- <ul class="form other-form">
             <li>
               <h5>使用第三方帐号登录</h5>
@@ -78,58 +163,124 @@
 </template>
 <script>
 import cookie from "../../static/js/cookie";
-import { login } from "../../api/api";
+import { login, getCode, checkUser, codeLogin } from "../../api/api";
 
 export default {
   data() {
     return {
       userName: "",
       parseWord: "",
+      phoneNum: "",
+      loginMode: "password",
+      code: "",
       autoLogin: false,
       error: false,
       userNameError: "",
       parseWordError: "",
+      codeError: "",
+      phoneError: "",
+      buttonText: "获取验证码",
+      disabled: false,
     };
   },
+  watch: {
+    phoneNum(val) {
+      if (val == "") {
+        this.phoneError = "手机号码不能为空";
+      } else {
+        this.phoneError = "";
+      }
+    },
+    code(val) {
+      if (val == "") {
+        this.codeError = "验证码不能为空";
+      } else {
+        this.codeError = "";
+      }
+    },
+  },
   methods: {
+    getCode() {
+      getCode({ username: this.phoneNum }).then((res) => {
+        this.countDown();
+      });
+    },
+    checkUser() {
+      checkUser(this.phoneNum).then((res) => {
+        if (res.data.code == 200) {
+          codeLogin({ username: this.phoneNum, code: this.code }).then(
+            (res) => {
+              //本地存储用户信息
+              cookie.setCookie("name", this.userName, 7);
+              cookie.setCookie("token", res.data.token, 7);
+              //存储在store
+              // 更新store数据
+              this.$store.dispatch("setInfo");
+              //跳转到首页页面
+              this.$router.push({ name: "index" });
+            }
+          );
+        }
+      });
+    },
     clearError() {
       this.userNameError = "";
       this.parseWordError = "";
       this.error = "";
     },
+    countDown() {
+      this.disabled = true;
+      let minute = 4;
+      let second = 59;
+      let timer = setInterval(() => {
+        this.buttonText = `0${minute} : ${second}`;
+        if (second === 0 && minute === 0) {
+          clearInterval(timer);
+          this.buttonText = "获取验证码";
+          this.disabled = false;
+        }
+        second = second - 1;
+        if (second === -1) {
+          second = 59;
+        }
+        if (second === 59) {
+          minute = minute - 1;
+        }
+      }, 1000);
+    },
     login() {
-      // if(this.userName==''||this.parseWord==''){
-      //   this.error = true;
-      //   return
-      // }
       var that = this;
-      login({
-        username: this.userName, //当前页码
-        password: this.parseWord,
-      })
-        .then((response) => {
-          console.log(response);
-          //本地存储用户信息
-          cookie.setCookie("name", this.userName, 7);
-          cookie.setCookie("token", response.data.token, 7);
-          //存储在store
-          // 更新store数据
-          that.$store.dispatch("setInfo");
-          //跳转到首页页面
-          this.$router.push({ name: "index" });
+      if (this.loginMode === "code") {
+        this.checkUser();
+      } else {
+        login({
+          username: this.userName, //当前页码
+          password: this.parseWord,
         })
-        .catch(function (error) {
-          if ("non_field_errors" in error) {
-            that.error = error.non_field_errors[0];
-          }
-          if ("username" in error) {
-            that.userNameError = error.username[0];
-          }
-          if ("password" in error) {
-            that.parseWordError = error.password[0];
-          }
-        });
-
+          .then((response) => {
+            console.log(response);
+            //本地存储用户信息
+            cookie.setCookie("name", this.userName, 7);
+            cookie.setCookie("token", response.data.token, 7);
+            //存储在store
+            // 更新store数据
+            that.$store.dispatch("setInfo");
+            //跳转到首页页面
+            this.$router.push({ name: "index" });
+          })
+          .catch(function (error) {
+            console.log(111, error);
+            if ("non_field_errors" in error) {
+              that.error = error.non_field_errors[0];
+            }
+            if ("username" in error) {
+              that.userNameError = error.username[0];
+            }
+            if ("password" in error) {
+              that.parseWordError = error.password[0];
+            }
+          });
+      }
       //      this.$http.post('/login', {
       //   params: {
       //     userName:this.userName,
@@ -185,8 +336,8 @@ export default {
   margin-top: 0;
   vertical-align: top;
   margin-right: 10px;
-  background: url(http://47.98.167.5:8000/images%5Clogin/other-login-bg.png)
-    center no-repeat;
+  background: url(http://47.98.167.5/images%5Clogin/other-login-bg.png) center
+    no-repeat;
   display: inline-block;
   width: 30px;
   height: 30px;
@@ -216,7 +367,7 @@ export default {
 }
 
 .bg-box {
-  background: url(http://192.168.50.29:8000/static/tyadmin/static/login.png);
+  background: url(http://47.98.167.5/static/tyadmin/static/login.png);
 }
 
 .login-box {
@@ -240,7 +391,7 @@ export default {
   margin-bottom: 15px;
   padding-top: 32px;
   padding-left: 190px;
-  /*  background:url(http://47.98.167.5:8000/images%5Clogin/logo.png) no-repeat 0 center;*/
+  /*  background:url(http://47.98.167.5/images%5Clogin/logo.png) no-repeat 0 center;*/
 }
 
 .index-logo {
@@ -260,7 +411,7 @@ export default {
   margin-top: 48px;
   padding-left: 20px;
   color: #fff;
-  /*background:url(http://47.98.167.5:8000/images%5Clogin/homepage.png) no-repeat 0 top;*/
+  /*background:url(http://47.98.167.5/images%5Clogin/homepage.png) no-repeat 0 top;*/
 }
 
 .fl {
@@ -325,24 +476,24 @@ export default {
 
 .unslider-arrow.prev {
   left: 0;
-  background: url(http://47.98.167.5:8000/images%5Clogin/slide_l.png) no-repeat
+  background: url(http://47.98.167.5/images%5Clogin/slide_l.png) no-repeat
     center center;
 }
 
 .unslider-arrow.prev:hover {
-  background: url(http://47.98.167.5:8000/images%5Clogin/slide_l_1.png)
-    no-repeat center center;
+  background: url(http://47.98.167.5/images%5Clogin/slide_l_1.png) no-repeat
+    center center;
 }
 
 .unslider-arrow.next {
   right: 0;
-  background: url(http://47.98.167.5:8000/images%5Clogin/slide_r.png) no-repeat
+  background: url(http://47.98.167.5/images%5Clogin/slide_r.png) no-repeat
     center center;
 }
 
 .unslider-arrow.next:hover {
-  background: url(http://47.98.167.5:8000/images%5Clogin/slide_r_1.png)
-    no-repeat center center;
+  background: url(http://47.98.167.5/images%5Clogin/slide_r_1.png) no-repeat
+    center center;
 }
 
 .hd-login > h1 {

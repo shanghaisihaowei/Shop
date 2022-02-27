@@ -154,7 +154,7 @@ area:focus {
 #footer .ft_nav a {
   display: inline-block;
   padding: 0 20px 0 21px;
-  /*background:url(../http://47.98.167.5:8000/images%5cfooter/border-right.png) no-repeat 0 center*/
+  /*background:url(../http://47.98.167.5/images%5cfooter/border-right.png) no-repeat 0 center*/
 }
 
 #footer .ft_nav a.noborder {
