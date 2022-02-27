@@ -16,9 +16,10 @@ from rest_framework.response import Response
 from rest_framework import mixins, permissions, authentication
 from rest_framework import viewsets, status
 from users.models import VerifyCode
-from users.serializers import SmsSerializer, UserRegSerializer, UserDetailSerializer
-from utils.yunpian import YunPian,Tencent,send_sms
-
+from users.serializers import SmsSerializer, UserRegSerializer, UserDetailSerializer,SmsModelSerializer,UserCodeLoginModelSerializer
+from utils.yunpian import YunPian,SmsCode
+from rest_framework.exceptions import APIException
+from datetime import datetime, timedelta
 User = get_user_model()
 
 
@@ -44,6 +45,83 @@ class CustomBackend(ModelBackend):
                 return user
         except Exception as e:
             return None
+from rest_framework.decorators import action
+from rest_framework.viewsets import ViewSet
+class MobileView(ViewSet):
+
+    @action(methods=['GET'], detail=False)
+    def mobile(self, request):
+        username = request.query_params.get('username')
+        try:
+            User.objects.get(mobile=username)
+            return Response(data={'code':200,'details':'手机号存在'})
+        except Exception:
+            return Response(data={'code':404,'details':'手机号不存在'})
+import re
+from VueDjangoFrameWorkShop.settings import REGEX_MOBILE
+class SmsSendCodeView(CreateModelMixin,viewsets.GenericViewSet):
+    authentication_classes = ()
+    serializer_class = SmsModelSerializer
+
+    def generate_code(self):
+        """
+        生成四位数字的验证码字符串
+        """
+        seeds = "1234567890"
+        random_str = []
+        for i in range(4):
+            random_str.append(choice(seeds))
+
+        return "".join(random_str)
+
+    def create(self, request, *args, **kwargs):
+        # 验证手机号码是否合法
+        username = self.request.data.get('username')
+        if not re.match(REGEX_MOBILE, username):
+            raise APIException({"detail": "手机格式不合法"})
+
+        # 手机是否注册
+        if not User.objects.filter(mobile=username).exists():
+            raise APIException({"detail": "用户名错误"})
+        # 验证码发送频率
+        one_mintes_ago = datetime.now() - timedelta(hours=0, minutes=1, seconds=0)
+        # 添加时间大于一分钟以前。也就是距离现在还不足一分钟
+        if VerifyCode.objects.filter(add_time__gt=one_mintes_ago, mobile=username).count():
+            raise APIException({"detail": "距离上一次发送未超过60s"})
+        code = self.generate_code()
+        res = SmsCode()
+        sms_status = res.send(username, code)
+        print(sms_status)
+        if sms_status != 'Ok':
+            return Response({
+                "mobile": '短信发送失败'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            code_record = VerifyCode(code=code, mobile=username)
+            code_record.save()
+            return Response({
+                "username": username
+            }, status=status.HTTP_201_CREATED)
+
+
+class CodeLoginViewSet(CreateModelMixin,viewsets.GenericViewSet):
+    '''
+    验证码登录
+    '''
+    authentication_classes = ()
+    serializer_class = UserCodeLoginModelSerializer
+    queryset = User.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        username = self.request.data.get('username')
+        if not re.match(REGEX_MOBILE, username):
+            raise APIException({"detail": "手机格式不合法"})
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        token = serializer.context.get('token')
+        username = serializer.context.get('username')
+        headers = self.get_success_headers(serializer.data)
+        return Response(data={'token':token,'username':username}, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class SmsCodeViewset(CreateModelMixin, viewsets.GenericViewSet):
@@ -74,9 +152,12 @@ class SmsCodeViewset(CreateModelMixin, viewsets.GenericViewSet):
 
         code = self.generate_code()
         # sms_status=send_sms(mobile,code)
-        tencent_send=Tencent()
-        sms_status=tencent_send.send_sms(mobile,code)
-        if sms_status == False:
+        # tencent_send=Tencent()
+        # sms_status=tencent_send.send_sms(mobile,code)
+        res = SmsCode()
+        sms_status = res.send(mobile, code)
+        print(sms_status)
+        if sms_status != 'Ok':
             return Response({
                 "mobile": '短信发送失败'
             }, status=status.HTTP_400_BAD_REQUEST)
