@@ -75,6 +75,9 @@ router.register(r'hotsearchs', HotSearchsViewset, basename="hotsearchs")
 from django.views.generic.base import RedirectView
 from users.views import favicon_view
 from tyadmin_api.views import AdminIndexView
+from django.views.static import serve as static_serve
+def return_static(request, path, insecure=True, **kwargs):
+  return serve(request, path, insecure, **kwargs)
 
 urlpatterns = [
     # path('xadmin_api/goods', include('goods.xadmin_api_urls')),
@@ -82,6 +85,7 @@ urlpatterns = [
     # path('xadmin_api/user_operation', include('user_operation.xadmin_api_urls')),
     # path('xadmin_api/users', include('users.xadmin_api_urls')),
     # 处理图片显示的url,使用Django自带serve,传入参数告诉它去哪个路径找，我们有配置好的路径MEDIAROOT
+    re_path(r'^static/(?P<path>.*)$', return_static, name='static'),
     re_path('media/(?P<path>.*)', serve, {"document_root": MEDIA_ROOT}),
 
     # 商品列表页
