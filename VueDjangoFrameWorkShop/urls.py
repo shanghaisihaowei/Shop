@@ -23,7 +23,7 @@ from VueDjangoFrameWorkShop.settings import MEDIA_ROOT
 from goods.views import GoodsListViewSet, CategoryViewset, BannerViewset, IndexCategoryViewset, HotSearchsViewset
 from trade.views import ShoppingCartViewset, OrderViewset, AlipayView,DelShoppingCartView
 from user_operation.views import UserFavViewset, LeavingMessageViewset, AddressViewset
-from users.views import SmsCodeViewset, UserViewset, IndexView,MobileView,SmsSendCodeView,CodeLoginViewSet
+from users.views import SmsCodeViewset, UserViewset, IndexView,MobileView,SmsSendCodeView,CodeLoginViewSet,UserDetailsView
 # from goods.views import GoodsListView,
 # from goods.views_base import GoodsListView
 from rest_framework.routers import DefaultRouter
@@ -45,6 +45,7 @@ router.register(r'code', SmsCodeViewset, basename="code")
 
 # 配置users的url
 router.register(r'users', UserViewset, basename="users")
+# router.register(r'usersdetails', UserDetailsView, basename="usersdetails")
 
 # 配置用户收藏的url
 router.register(r'userfavs', UserFavViewset, basename="userfavs")
@@ -75,6 +76,9 @@ router.register(r'hotsearchs', HotSearchsViewset, basename="hotsearchs")
 from django.views.generic.base import RedirectView
 from users.views import favicon_view
 from tyadmin_api.views import AdminIndexView
+from django.views.static import serve as static_serve
+def return_static(request, path, insecure=True, **kwargs):
+  return serve(request, path, insecure, **kwargs)
 
 urlpatterns = [
     # path('xadmin_api/goods', include('goods.xadmin_api_urls')),
@@ -82,6 +86,7 @@ urlpatterns = [
     # path('xadmin_api/user_operation', include('user_operation.xadmin_api_urls')),
     # path('xadmin_api/users', include('users.xadmin_api_urls')),
     # 处理图片显示的url,使用Django自带serve,传入参数告诉它去哪个路径找，我们有配置好的路径MEDIAROOT
+    re_path(r'^static/(?P<path>.*)$', return_static, name='static'),
     re_path('media/(?P<path>.*)', serve, {"document_root": MEDIA_ROOT}),
 
     # 商品列表页
@@ -105,6 +110,8 @@ urlpatterns = [
     path('get_code/', SmsSendCodeView.as_view({"post": "create"})),
     # 验证码登录
     path('code_login/', CodeLoginViewSet.as_view({"post": "create"})),
+    path('userdetails/', UserDetailsView.as_view({"get":"retrieve","put": "update","patch":"partial_update"})),
+
 
     # jwt的token认证
     path('login/', obtain_jwt_token),
