@@ -102,6 +102,7 @@
           "
         >
           总价：￥{{ totalPrice + freight - discounts }}元
+          <!-- 总价：￥{{ totalPrice - discounts }}元 -->
         </div>
 
         <div class="extr">
@@ -352,7 +353,8 @@ export default {
     },
     balanceCount() {
       // 结算
-      if (this.addrInfo.length == 0) {
+      let check = this.address && this.signer_name && this.signer_mobile;
+      if (this.addrInfo.length == 0 || !check) {
         alert("请选择收货地址");
       } else {
         createOrder({

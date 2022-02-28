@@ -251,7 +251,7 @@ a.productitem span.nalaprice {
 }
 a.productitem span.productname {
   display: block;
-  height: 35px;
+  height: 32px;
   line-height: 16px;
   overflow: hidden;
   color: #666;

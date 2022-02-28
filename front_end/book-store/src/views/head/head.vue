@@ -39,6 +39,7 @@
             </div>
           </li>
           <li
+            style="height: 50px"
             class="hd_cart"
             id="ECS_CARTINFO"
             @mouseover="overShopCar"
@@ -254,6 +255,15 @@ export default {
       showShopCar: false, //购物车显示控制
       isShowVip: false,
     };
+  },
+  watch: {
+    userInfo: {
+      handler(val) {
+        console.log(888, val);
+      },
+      immediate: true,
+      deep: true,
+    },
   },
   computed: {
     ...mapGetters({

@@ -6,7 +6,7 @@
           <div class="userCenterBox boxCenterList clearfix" style="_height: 1%">
             <h1><span>个人资料</span></h1>
             <div class="blank"></div>
-            <form name="formEdit">
+            <div name="formEdit">
               <table width="100%">
                 <tbody>
                   <tr>
@@ -42,14 +42,14 @@
                         type="radio"
                         id="male"
                         value="male"
-                        v-model="userInfo.gender"
+                        v-model="userInfo.sex"
                       />
                       <label for="male">男</label>
                       <input
                         type="radio"
                         id="female"
                         value="female"
-                        v-model="userInfo.gender"
+                        v-model="userInfo.sex"
                       />
                       <label for="female">女</label>
                     </td>
@@ -103,7 +103,7 @@
                   </tr>
                 </tbody>
               </table>
-            </form>
+            </div>
           </div>
         </div>
       </div>
@@ -121,7 +121,7 @@ export default {
         birthday: "",
         sex: "",
         email: "",
-        phone: "",
+        phone: "12445",
       },
     };
   },
@@ -147,7 +147,13 @@ export default {
     },
     confirmModify() {
       // 确认修改
-      updateUserInfo(this.userInfo)
+      let userInfo = {
+        name: this.userInfo.username,
+        gender: this.userInfo.sex,
+        email: this.userInfo.email,
+        birthday: this.userInfo.birthday,
+      };
+      updateUserInfo(userInfo)
         .then((response) => {
           alert("修改成功");
         })

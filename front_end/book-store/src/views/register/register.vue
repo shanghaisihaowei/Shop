@@ -1,89 +1,93 @@
 <template>
   <div>
-    <div class="c-box bg-box">
-      <div class="login-box clearfix" style="margin-top: 10px">
-        <div class="fr form-box">
-          <div class="tab">
-            <h2 style="font-size: 18px; margin: 0; width: fit-content">
-              手机注册
-            </h2>
-          </div>
-          <div class="tab-form">
-            <form id="mobile_register_form" autocomplete="off">
-              <input
-                type="hidden"
-                name="csrfmiddlewaretoken"
-                value="ywSlOHdiGsK6VFB6iyhnB1B30khmz8SU"
-              />
-
-              <div class="form-group marb8">
-                <label>手&nbsp;机&nbsp;号</label>
-                <input
-                  id="jsRegMobile"
-                  name="account"
-                  v-model="mobile"
-                  type="text"
-                  placeholder="请输入您的手机号码"
-                  @focus="clearError"
-                />
-              </div>
-              <p class="error-text marb8" v-show="error.mobile">
-                {{ error.mobile }}
-              </p>
-              <div class="clearfix">
-                <div class="form-group marb8 verify-code">
-                  <label>短信验证码</label>
-                  <input
-                    id="jsPhoneRegCaptcha"
-                    v-model="code"
-                    type="text"
-                    placeholder="输入手机验证码"
-                    @focus="clearError"
-                  />
-                </div>
-                <input
-                  class="verify-code-btn sendcode"
-                  type="button"
-                  id="jsSendCode"
-                  @click="seedMessage"
-                  :value="getMessageText"
-                />
-              </div>
-              <p class="error-text marb8" v-show="error.code">
-                {{ error.code }}
-              </p>
-
-              <div class="form-group marb8">
-                <label>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</label>
-                <input
-                  id="jsPhoneRegPwd"
-                  name="password_m"
-                  type="password"
-                  v-model="password"
-                  placeholder="请输入6-20位非中文字符密码"
-                  @focus="clearError"
-                />
-              </div>
-              <p class="error-text marb8" v-show="error.password">
-                {{ error.password }}
-              </p>
-              <div class="error btns" id="jsMobileTips"></div>
-              <div class="auto-box marb8"></div>
-              <input
-                class="btn btn-green"
-                style="padding: 0"
-                id="jsMobileRegBtn"
-                @click="isRegister"
-                type="button"
-                value="注册并登录"
-              />
-            </form>
-          </div>
-
-          <p class="form-p">
-            已有账号？ <router-link :to="'/app/login'">[立即登录]</router-link>
-          </p>
+    <div class="c-box bg-box" style="display: flex">
+      <div style="width: 50%; position: relative">
+        <img
+          style="position: absolute; right: 0; top: 50px"
+          src="https://shop.56yhz.com/static/tyadmin/static/login.png"
+        />
+      </div>
+      <div class="fr form-box" style="margin: 0 0 50px 15%">
+        <div class="tab">
+          <h2 style="font-size: 18px; margin: 0; width: fit-content">
+            手机注册
+          </h2>
         </div>
+        <div class="tab-form">
+          <form id="mobile_register_form" autocomplete="off">
+            <input
+              type="hidden"
+              name="csrfmiddlewaretoken"
+              value="ywSlOHdiGsK6VFB6iyhnB1B30khmz8SU"
+            />
+
+            <div class="form-group marb8">
+              <label>手&nbsp;机&nbsp;号</label>
+              <input
+                id="jsRegMobile"
+                name="account"
+                v-model="mobile"
+                type="text"
+                placeholder="请输入您的手机号码"
+                @focus="clearError"
+              />
+            </div>
+            <p class="error-text marb8" v-show="error.mobile">
+              {{ error.mobile }}
+            </p>
+            <div class="clearfix">
+              <div class="form-group marb8 verify-code">
+                <label>短信验证码</label>
+                <input
+                  id="jsPhoneRegCaptcha"
+                  v-model="code"
+                  type="text"
+                  placeholder="输入手机验证码"
+                  @focus="clearError"
+                />
+              </div>
+              <input
+                class="verify-code-btn sendcode"
+                type="button"
+                id="jsSendCode"
+                @click="seedMessage"
+                :value="getMessageText"
+              />
+            </div>
+            <p class="error-text marb8" v-show="error.code">
+              {{ error.code }}
+            </p>
+
+            <div class="form-group marb8">
+              <label>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+              <input
+                id="jsPhoneRegPwd"
+                name="password_m"
+                type="password"
+                v-model="password"
+                placeholder="请输入6-20位非中文字符密码"
+                @focus="clearError"
+              />
+            </div>
+            <p class="error-text marb8" v-show="error.password">
+              {{ error.password }}
+            </p>
+            <div class="error btns" id="jsMobileTips"></div>
+            <div class="auto-box marb8"></div>
+            <input
+              class="btn btn-green"
+              style="padding: 0"
+              id="jsMobileRegBtn"
+              @click="isRegister"
+              type="button"
+              value="注册并登录"
+            />
+          </form>
+        </div>
+
+        <p class="form-p">
+          已有账号？ <router-link :to="'/app/login'">[立即登录]</router-link>
+        </p>
       </div>
     </div>
   </div>
@@ -184,7 +188,7 @@ export default {
   overflow: hidden;
 }
 .bg-box {
-  background: url(http://47.98.167.5/static/tyadmin/static/login.png);
+  background: #a7b8c3;
 }
 .login-box {
   width: 853px;

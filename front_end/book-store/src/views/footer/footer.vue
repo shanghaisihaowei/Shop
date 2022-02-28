@@ -9,7 +9,7 @@
                 <img
                   width="300"
                   height="90"
-                  src="http://myphoto.mtianyan.cn/blog/180426/hFIJAKHAJE.png?imageslim"
+                  src="https://shop.56yhz.com/static/tyadmin/static/1.png"
                 />
               </a>
             </li>
@@ -18,7 +18,7 @@
                 <img
                   width="300"
                   height="90"
-                  src="http://myphoto.mtianyan.cn/blog/180426/gEKbL0fLBK.png?imageslim"
+                  src="https://shop.56yhz.com/static/tyadmin/static/2.png"
                 />
               </a>
             </li>
@@ -27,7 +27,7 @@
                 <img
                   width="300"
                   height="90"
-                  src="http://myphoto.mtianyan.cn/blog/180426/g385J1c94D.png?imageslim"
+                  src="https://shop.56yhz.com/static/tyadmin/static/3.png"
                 />
               </a>
             </li>
@@ -36,7 +36,7 @@
                 <img
                   width="300"
                   height="90"
-                  src="http://myphoto.mtianyan.cn/blog/180426/bGaGK7bJCH.png?imageslim"
+                  src="https://shop.56yhz.com/static/tyadmin/static/4.png"
                 />
               </a>
             </li>
