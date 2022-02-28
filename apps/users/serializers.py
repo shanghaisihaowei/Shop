@@ -107,10 +107,28 @@ class UserDetailSerializer(serializers.ModelSerializer):
     """
     用户详情序列化
     """
-
+    mobile = serializers.CharField(read_only=True)
     class Meta:
         model = User
-        fields = ("username", "gender", "birthday", "email", "mobile")
+        fields = ("name", "gender", "birthday", "email", "mobile")
+
+class UserDetailUpdateSerializer(serializers.ModelSerializer):
+    """
+    用户详情序列化
+    """
+    mobile = serializers.CharField(read_only=True)
+    class Meta:
+        model = User
+        fields = ("name", "gender", "birthday", "email", "mobile")
+
+class UserDetailPartial_UpdateSerializer(serializers.ModelSerializer):
+    """
+    用户详情序列化
+    """
+    mobile = serializers.CharField(read_only=True)
+    class Meta:
+        model = User
+        fields = ("name", "gender", "birthday", "email", "mobile")
 
 class UserRegSerializer(serializers.ModelSerializer):
     code = serializers.CharField(required=True, write_only=True, max_length=4, min_length=4, label="验证码",

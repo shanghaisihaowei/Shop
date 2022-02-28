@@ -23,7 +23,7 @@ from VueDjangoFrameWorkShop.settings import MEDIA_ROOT
 from goods.views import GoodsListViewSet, CategoryViewset, BannerViewset, IndexCategoryViewset, HotSearchsViewset
 from trade.views import ShoppingCartViewset, OrderViewset, AlipayView,DelShoppingCartView
 from user_operation.views import UserFavViewset, LeavingMessageViewset, AddressViewset
-from users.views import SmsCodeViewset, UserViewset, IndexView,MobileView,SmsSendCodeView,CodeLoginViewSet
+from users.views import SmsCodeViewset, UserViewset, IndexView,MobileView,SmsSendCodeView,CodeLoginViewSet,UserDetailsView
 # from goods.views import GoodsListView,
 # from goods.views_base import GoodsListView
 from rest_framework.routers import DefaultRouter
@@ -45,6 +45,7 @@ router.register(r'code', SmsCodeViewset, basename="code")
 
 # 配置users的url
 router.register(r'users', UserViewset, basename="users")
+# router.register(r'usersdetails', UserDetailsView, basename="usersdetails")
 
 # 配置用户收藏的url
 router.register(r'userfavs', UserFavViewset, basename="userfavs")
@@ -109,6 +110,8 @@ urlpatterns = [
     path('get_code/', SmsSendCodeView.as_view({"post": "create"})),
     # 验证码登录
     path('code_login/', CodeLoginViewSet.as_view({"post": "create"})),
+    path('userdetails/', UserDetailsView.as_view({"get":"retrieve","put": "update","patch":"partial_update"})),
+
 
     # jwt的token认证
     path('login/', obtain_jwt_token),

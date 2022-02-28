@@ -10,13 +10,15 @@ from django.contrib.auth import get_user_model
 # 这个方法会去setting中找AUTH_USER_MODEL
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
-
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
+from utils.permissions import IsOwnerOrReadOnly
 from VueDjangoFrameWorkShop.settings import APIKEY
 from rest_framework.response import Response
 from rest_framework import mixins, permissions, authentication
 from rest_framework import viewsets, status
 from users.models import VerifyCode
-from users.serializers import SmsSerializer, UserRegSerializer, UserDetailSerializer,SmsModelSerializer,UserCodeLoginModelSerializer
+from users.serializers import SmsSerializer, UserRegSerializer, UserDetailSerializer,SmsModelSerializer,UserCodeLoginModelSerializer,UserDetailUpdateSerializer,UserDetailPartial_UpdateSerializer
 from utils.yunpian import YunPian,SmsCode
 from rest_framework.exceptions import APIException
 from datetime import datetime, timedelta
@@ -187,7 +189,14 @@ class UserViewset(CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveMode
 
         return UserDetailSerializer
 
-    # permission_classes = (permissions.IsAuthenticated, )
+    permission_classes = (permissions.IsAuthenticated, )
+
+    # def get_queryset(self):
+    #     if self.request.user:
+    #         return User.objects.filter(id=self.request.user.pk)
+    #     else:
+    #         raise APIException({"detail": "您未登录"})
+
     def get_permissions(self):
         if self.action == "retrieve":
             # return [permissions.IsAuthenticated()]
@@ -218,6 +227,30 @@ class UserViewset(CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveMode
     def perform_create(self, serializer):
         return serializer.save()
 
+
+class UserDetailsView(CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    serializer_class = UserRegSerializer
+    queryset = User.objects.all()
+
+    # 重写该方法，不管传什么id，都只返回当前用户
+    def get_object(self):
+        return self.request.user
+
+    def get_queryset(self):
+        return User.objects.filter(pk=self.request.user.pk,)
+
+    def get_serializer_class(self):
+
+        if self.action in ['retrieve']:
+            return UserDetailSerializer
+        # elif self.action in ['create']:
+        #     return UserDetailSerializer
+        elif self.action in ['update']:
+            return UserDetailUpdateSerializer
+        elif self.action in ['partial_update']:
+            return UserDetailPartial_UpdateSerializer
 
 class IndexView(View):
     # 直接调用get方法免去判断
