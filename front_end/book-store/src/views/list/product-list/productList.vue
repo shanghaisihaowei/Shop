@@ -1,7 +1,7 @@
 <template>
   <div class="productlist">
     <ul class="cle">
-      <li v-for="item in listData">
+      <li v-for="item in listData" :key="item.id">
         <router-link
           :to="'/app/home/productDetail/' + item.id"
           target="_blank"

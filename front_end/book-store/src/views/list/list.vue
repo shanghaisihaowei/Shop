@@ -95,9 +95,9 @@ export default {
         this.searchWord = this.$route.params.keyword;
       }
 
-      this.getCurLoc(); // 获取当前位置
+      //   this.getCurLoc(); // 获取当前位置
       this.getListData(); //获取产品列表
-      this.getPriceRange(); // 获取价格区间
+      //   this.getPriceRange(); // 获取价格区间
     },
     getListData() {
       if (this.pageType == "search") {
@@ -200,7 +200,7 @@ export default {
     },
     changeMenu(id) {
       this.top_category = id; //重新获取
-      this.getCurLoc();
+      //   this.getCurLoc();
       this.getMenu(id);
       this.getListData();
     },

@@ -18,7 +18,7 @@
                         placeholder=""
                         size="25"
                         class="inputBg"
-                        v-model="userInfo.username"
+                        v-model="userInfo.name"
                       />
                     </td>
                   </tr>
@@ -42,14 +42,14 @@
                         type="radio"
                         id="male"
                         value="male"
-                        v-model="userInfo.sex"
+                        v-model="userInfo.gender"
                       />
                       <label for="male">男</label>
                       <input
                         type="radio"
                         id="female"
                         value="female"
-                        v-model="userInfo.sex"
+                        v-model="userInfo.gender"
                       />
                       <label for="female">女</label>
                     </td>
@@ -117,9 +117,9 @@ export default {
   data() {
     return {
       userInfo: {
-        username: "",
+        name: "",
         birthday: "",
-        sex: "",
+        gender: "",
         email: "",
         phone: "12445",
       },
@@ -147,13 +147,7 @@ export default {
     },
     confirmModify() {
       // 确认修改
-      let userInfo = {
-        name: this.userInfo.username,
-        gender: this.userInfo.sex,
-        email: this.userInfo.email,
-        birthday: this.userInfo.birthday,
-      };
-      updateUserInfo(userInfo)
+      updateUserInfo(this.userInfo)
         .then((response) => {
           alert("修改成功");
         })
