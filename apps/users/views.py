@@ -59,8 +59,11 @@ class MobileView(ViewSet):
             return Response(data={'code':200,'details':'手机号存在'})
         except Exception:
             return Response(data={'code':404,'details':'手机号不存在'})
+
 import re
 from VueDjangoFrameWorkShop.settings import REGEX_MOBILE
+
+
 class SmsSendCodeView(CreateModelMixin,viewsets.GenericViewSet):
     authentication_classes = ()
     serializer_class = SmsModelSerializer
@@ -261,4 +264,4 @@ class IndexView(View):
 
 
 favicon_view = RedirectView.as_view(
-    url='http://vueshopstatic.mtianyan.cn/daishu/favicon.ico', permanent=True)
+    url='http://127.0.0.1:8000/static/tyadmin/static/logo.f0355d39.svg', permanent=True)

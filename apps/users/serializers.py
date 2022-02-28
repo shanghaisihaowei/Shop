@@ -117,7 +117,7 @@ class UserDetailUpdateSerializer(serializers.ModelSerializer):
     """
     用户详情序列化
     """
-    birthday = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
+    # birthday = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
     mobile = serializers.CharField(read_only=True)
     class Meta:
         model = User
@@ -127,7 +127,7 @@ class UserDetailPartial_UpdateSerializer(serializers.ModelSerializer):
     """
     用户详情序列化
     """
-    birthday = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
+    # birthday = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
     mobile = serializers.CharField(read_only=True)
     class Meta:
         model = User
