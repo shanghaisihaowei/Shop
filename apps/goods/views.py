@@ -50,7 +50,7 @@ class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewset
     throttle_classes = (UserRateThrottle, AnonRateThrottle)
     serializer_class = GoodsSerializer
     pagination_class = GoodsPagination
-    queryset = Goods.objects.all()
+    queryset = Goods.objects.filter().all()
 
     # 设置列表页的单独auth认证也就是不认证
     # authentication_classes = (TokenAuthentication,)
@@ -59,11 +59,13 @@ class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewset
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     # 设置排序
     ordering_fields = ('sold_num', 'shop_price')
-    # 设置filter的类为我们自定义的类
-    filter_class = GoodsFilter
 
     # 设置我们的search字段
     search_fields = ('name', 'goods_brief', 'goods_desc')
+    # 设置filter的类为我们自定义的类
+    filter_class = GoodsFilter
+
+
 
     # 设置我们需要进行过滤的字段
     # filter_fields = ('name', 'shop_price')
