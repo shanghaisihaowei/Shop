@@ -41,7 +41,7 @@ class UserFavViewset(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Crea
 
     # 设置动态的Serializer
     def get_serializer_class(self):
-        if self.action == "list":
+        if self.action == ["list",]:
             return UserFavDetailSerializer
         elif self.action == "create":
             return UserFavSerializer
