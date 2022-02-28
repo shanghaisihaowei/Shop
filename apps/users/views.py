@@ -59,8 +59,11 @@ class MobileView(ViewSet):
             return Response(data={'code':200,'details':'手机号存在'})
         except Exception:
             return Response(data={'code':404,'details':'手机号不存在'})
+
 import re
 from VueDjangoFrameWorkShop.settings import REGEX_MOBILE
+
+
 class SmsSendCodeView(CreateModelMixin,viewsets.GenericViewSet):
     authentication_classes = ()
     serializer_class = SmsModelSerializer
