@@ -1,140 +1,136 @@
 <template>
   <div>
-    <div class="c-box bg-box">
-      <div class="login-box clearfix" style="margin-top: 10px">
-        <div class="fr form-box">
-          <h2 style="margin: 0; font-size: 18px">用户登录</h2>
+    <div class="c-box bg-box" style="display: flex; padding-top: 17px">
+      <div style="width: 50%; position: relative">
+        <img
+          style="position: absolute; right: 0; top: 50px"
+          src="https://shop.56yhz.com/static/tyadmin/static/login.png"
+        />
+      </div>
+      <div class="fr form-box" style="margin: 0 0 50px 15%">
+        <h2 style="margin: 0; font-size: 18px">用户登录</h2>
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            font-size: 16px;
+            margin: 50px 0;
+            cursor: pointer;
+          "
+        >
           <div
-            style="
-              display: flex;
-              justify-content: center;
-              font-size: 16px;
-              margin: 50px 0;
-              cursor: pointer;
-            "
+            @click="loginMode = 'password'"
+            :style="{ color: loginMode === 'password' ? '#1370ee' : '' }"
           >
-            <div
-              @click="loginMode = 'password'"
-              :style="{ color: loginMode === 'password' ? '#1370ee' : '' }"
-            >
-              密码登录
-            </div>
-            <div style="margin: 0 10px">|</div>
-            <div
-              @click="loginMode = 'code'"
-              :style="{ color: loginMode === 'code' ? '#1370ee' : '' }"
-            >
-              验证码登录
-            </div>
+            密码登录
           </div>
-          <div id="jsLoginForm" autocomplete="off">
-            <input
-              type="hidden"
-              name="csrfmiddlewaretoken"
-              value="ywSlOHdiGsK6VFB6iyhnB1B30khmz8SU"
-            />
-            <!-- 密码登录 -->
-            <div v-show="loginMode === 'password'">
-              <div class="form-group marb20">
-                <label>用&nbsp;户&nbsp;名</label>
-                <input
-                  name="account_l"
-                  id="account_l"
-                  type="text"
-                  v-model="userName"
-                  placeholder="手机号/账号"
-                  @focus="clearError"
-                />
-              </div>
-              <p class="error-text" v-show="userNameError">
-                {{ userNameError }}
-              </p>
-              <div class="form-group marb8">
-                <label>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</label>
-                <input
-                  name="password_l"
-                  id="password_l2"
-                  type="password"
-                  v-model="parseWord"
-                  placeholder="请输入您的密码"
-                  @focus="clearError"
-                />
-              </div>
-              <p class="error-text" v-show="parseWordError">
-                {{ parseWordError }}
-              </p>
+          <div style="margin: 0 10px">|</div>
+          <div
+            @click="loginMode = 'code'"
+            :style="{ color: loginMode === 'code' ? '#1370ee' : '' }"
+          >
+            验证码登录
+          </div>
+        </div>
+        <div id="jsLoginForm" autocomplete="off">
+          <input
+            type="hidden"
+            name="csrfmiddlewaretoken"
+            value="ywSlOHdiGsK6VFB6iyhnB1B30khmz8SU"
+          />
+          <!-- 密码登录 -->
+          <div v-show="loginMode === 'password'">
+            <div class="form-group marb20">
+              <label>用&nbsp;户&nbsp;名</label>
+              <input
+                name="account_l"
+                id="account_l"
+                type="text"
+                v-model="userName"
+                placeholder="手机号/账号"
+                @focus="clearError"
+              />
             </div>
-            <!-- 验证码登录 -->
-            <div v-show="loginMode === 'code'">
-              <div class="form-group marb20" style="margin: 0">
-                <label>手&nbsp;机&nbsp;号</label>
-                <input
-                  name="account_l"
-                  id="account_l2"
-                  type="text"
-                  v-model="phoneNum"
-                  placeholder="请输入您的手机号"
-                  @focus="clearError"
-                />
-              </div>
-              <p class="error-text" v-show="phoneError">
-                {{ phoneError }}
-              </p>
-              <div style="display: flex">
-                <div
-                  class="form-group marb8"
-                  style="
-                    border-top-right-radius: 0;
-                    border-bottom-right-radius: 0;
-                  "
-                >
-                  <label>验&nbsp;证&nbsp;码</label>
-                  <div style="display: flex; height: 100%">
-                    <input
-                      style="border: 0; padding: 7px 10px"
-                      name="password_l"
-                      id="password_l"
-                      type="password"
-                      v-model="code"
-                      placeholder="请输入您的验证码"
-                      @focus="clearError"
-                    />
-                  </div>
+            <p class="error-text" v-show="userNameError">
+              {{ userNameError }}
+            </p>
+            <div class="form-group marb8">
+              <label>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+              <input
+                name="password_l"
+                id="password_l2"
+                type="password"
+                v-model="parseWord"
+                placeholder="请输入您的密码"
+                @focus="clearError"
+              />
+            </div>
+            <p class="error-text" v-show="parseWordError">
+              {{ parseWordError }}
+            </p>
+          </div>
+          <!-- 验证码登录 -->
+          <div v-show="loginMode === 'code'">
+            <div class="form-group marb20" style="margin: 0">
+              <label>手&nbsp;机&nbsp;号</label>
+              <input
+                name="account_l"
+                id="account_l2"
+                type="text"
+                v-model="phoneNum"
+                placeholder="请输入您的手机号"
+                @focus="clearError"
+              />
+            </div>
+            <p class="error-text" v-show="phoneError">
+              {{ phoneError }}
+            </p>
+            <div style="display: flex">
+              <div
+                class="form-group marb8"
+                style="
+                  border-top-right-radius: 0;
+                  border-bottom-right-radius: 0;
+                "
+              >
+                <label>验&nbsp;证&nbsp;码</label>
+                <div style="display: flex; height: 100%">
+                  <input
+                    style="border: 0; padding: 7px 10px"
+                    name="password_l"
+                    id="password_l"
+                    type="password"
+                    v-model="code"
+                    placeholder="请输入您的验证码"
+                    @focus="clearError"
+                  />
                 </div>
-                <button
-                  @click="getCode()"
-                  :disabled="disabled"
-                  style="
-                    width: 120px;
-                    height: 40px;
-                    background: #1370ee;
-                    color: white;
-                    border: 0;
-                    margin-top: 20px;
-                    border-top-right-radius: 3px;
-                    border-bottom-right-radius: 3px;
-                  "
-                >
-                  {{ buttonText }}
-                </button>
               </div>
-              <p class="error-text" v-show="codeError">
-                {{ codeError }}
-              </p>
+              <button
+                @click="getCode()"
+                :disabled="disabled"
+                class="code_button"
+              >
+                {{ buttonText }}
+              </button>
             </div>
-            <!--        <div class="error btns login-form-tips" id="jsLoginTips" v-show="error"><p>用户名或密码错误</p></div> -->
-            <div class="auto-box marb38"></div>
-            <p class="error-text" v-show="error">{{ error }}</p>
-            <input
-              class="btn btn-green"
-              style="padding: 0"
-              id="jsLoginBtn"
-              type="button"
-              @click="login"
-              value="立即登录"
-            />
+            <p class="error-text" v-show="codeError">
+              {{ codeError }}
+            </p>
           </div>
-          <!-- <ul class="form other-form">
+          <!--        <div class="error btns login-form-tips" id="jsLoginTips" v-show="error"><p>用户名或密码错误</p></div> -->
+          <div class="auto-box marb38"></div>
+          <p class="error-text" v-show="error">{{ error }}</p>
+          <input
+            class="btn btn-green"
+            style="padding: 0"
+            id="jsLoginBtn"
+            type="button"
+            @click="login"
+            value="立即登录"
+          />
+        </div>
+        <!-- <ul class="form other-form">
             <li>
               <h5>使用第三方帐号登录</h5>
             </li>
@@ -150,13 +146,12 @@
               ></a>
             </li>
           </ul> -->
-          <p class="form-p">
-            没有帐号？
-            <router-link :to="'/app/register/'" target="_blank"
-              >[立即注册]</router-link
-            >
-          </p>
-        </div>
+        <p class="form-p">
+          没有帐号？
+          <router-link :to="'/app/register/'" target="_blank"
+            >[立即注册]</router-link
+          >
+        </p>
       </div>
     </div>
   </div>
@@ -201,27 +196,43 @@ export default {
   },
   methods: {
     getCode() {
-      getCode({ username: this.phoneNum }).then((res) => {
-        this.countDown();
-      });
+      if (this.phoneNum == "") {
+        this.phoneError = "手机号码不能为空";
+      } else {
+        this.phoneError = "";
+        getCode({ username: this.phoneNum }).then((res) => {
+          this.countDown();
+        });
+      }
     },
     checkUser() {
-      checkUser(this.phoneNum).then((res) => {
-        if (res.data.code == 200) {
-          codeLogin({ username: this.phoneNum, code: this.code }).then(
-            (res) => {
-              //本地存储用户信息
-              cookie.setCookie("name", this.userName, 7);
-              cookie.setCookie("token", res.data.token, 7);
-              //存储在store
-              // 更新store数据
-              this.$store.dispatch("setInfo");
-              //跳转到首页页面
-              this.$router.push({ name: "index" });
+      if (this.phoneNum == "") {
+        this.phoneError = "手机号码不能为空";
+      } else {
+        this.phoneError = "";
+        if (this.code == "") {
+          this.codeError = "验证码不能为空";
+        } else {
+          this.codeError = "";
+          var that = this;
+          checkUser(this.phoneNum).then((res) => {
+            if (res.data.code == 200) {
+              codeLogin({ username: this.phoneNum, code: this.code }).then(
+                (res) => {
+                  //本地存储用户信息
+                  cookie.setCookie("name", this.phoneNum, 7);
+                  cookie.setCookie("token", res.data.token, 7);
+                  //存储在store
+                  // 更新store数据
+                  that.$store.dispatch("setInfo");
+                  //跳转到首页页面
+                  this.$router.push({ name: "index" });
+                }
+              );
             }
-          );
+          });
         }
-      });
+      }
     },
     clearError() {
       this.userNameError = "";
@@ -258,7 +269,6 @@ export default {
           password: this.parseWord,
         })
           .then((response) => {
-            console.log(response);
             //本地存储用户信息
             cookie.setCookie("name", this.userName, 7);
             cookie.setCookie("token", response.data.token, 7);
@@ -269,7 +279,6 @@ export default {
             this.$router.push({ name: "index" });
           })
           .catch(function (error) {
-            console.log(111, error);
             if ("non_field_errors" in error) {
               that.error = error.non_field_errors[0];
             }
@@ -319,6 +328,19 @@ export default {
 };
 </script>
 <style scoped>
+.code_button:hover {
+  background: blue;
+}
+.code_button {
+  width: 120px;
+  height: 40px;
+  background: #1370ee;
+  color: white;
+  border: 0;
+  margin-top: 20px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
 .error-text {
   color: #fa8341;
 }
@@ -367,7 +389,7 @@ export default {
 }
 
 .bg-box {
-  background: url(http://47.98.167.5/static/tyadmin/static/login.png);
+  background: #a7b8c3;
 }
 
 .login-box {
