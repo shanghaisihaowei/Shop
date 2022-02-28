@@ -170,7 +170,7 @@ export default {
       payWrapList: [
         {
           id: 1,
-          img: "http://47.98.167.5/images%5Calipay.jpg",
+          img: "https://shop.56yhz.com/images%5Calipay.jpg",
         },
       ],
       payWrapActive: null,

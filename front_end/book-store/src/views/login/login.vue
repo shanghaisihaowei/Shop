@@ -200,12 +200,21 @@ export default {
         this.phoneError = "手机号码不能为空";
       } else {
         this.phoneError = "";
-        getCode({ username: this.phoneNum }).then((res) => {
-          this.countDown();
-        });
+        this.checkUser();
       }
     },
     checkUser() {
+      checkUser(this.phoneNum).then((res) => {
+        if (res.data.code == 200) {
+          getCode({ username: this.phoneNum }).then((res) => {
+            this.countDown();
+          });
+        } else {
+          alert(res.data.details);
+        }
+      });
+    },
+    codeLogin() {
       if (this.phoneNum == "") {
         this.phoneError = "手机号码不能为空";
       } else {
@@ -215,22 +224,18 @@ export default {
         } else {
           this.codeError = "";
           var that = this;
-          checkUser(this.phoneNum).then((res) => {
-            if (res.data.code == 200) {
-              codeLogin({ username: this.phoneNum, code: this.code }).then(
-                (res) => {
-                  //本地存储用户信息
-                  cookie.setCookie("name", this.phoneNum, 7);
-                  cookie.setCookie("token", res.data.token, 7);
-                  //存储在store
-                  // 更新store数据
-                  that.$store.dispatch("setInfo");
-                  //跳转到首页页面
-                  this.$router.push({ name: "index" });
-                }
-              );
+          codeLogin({ username: this.phoneNum, code: this.code }).then(
+            (res) => {
+              //本地存储用户信息
+              cookie.setCookie("name", this.phoneNum, 7);
+              cookie.setCookie("token", res.data.token, 7);
+              //存储在store
+              // 更新store数据
+              that.$store.dispatch("setInfo");
+              //跳转到首页页面
+              this.$router.push({ name: "index" });
             }
-          });
+          );
         }
       }
     },
@@ -262,7 +267,7 @@ export default {
     login() {
       var that = this;
       if (this.loginMode === "code") {
-        this.checkUser();
+        this.codeLogin();
       } else {
         login({
           username: this.userName, //当前页码
@@ -358,8 +363,8 @@ export default {
   margin-top: 0;
   vertical-align: top;
   margin-right: 10px;
-  background: url(http://47.98.167.5/images%5Clogin/other-login-bg.png) center
-    no-repeat;
+  background: url(https://shop.56yhz.com/images%5Clogin/other-login-bg.png)
+    center no-repeat;
   display: inline-block;
   width: 30px;
   height: 30px;
@@ -413,7 +418,7 @@ export default {
   margin-bottom: 15px;
   padding-top: 32px;
   padding-left: 190px;
-  /*  background:url(http://47.98.167.5/images%5Clogin/logo.png) no-repeat 0 center;*/
+  /*  background:url(https://shop.56yhz.com/images%5Clogin/logo.png) no-repeat 0 center;*/
 }
 
 .index-logo {
@@ -433,7 +438,7 @@ export default {
   margin-top: 48px;
   padding-left: 20px;
   color: #fff;
-  /*background:url(http://47.98.167.5/images%5Clogin/homepage.png) no-repeat 0 top;*/
+  /*background:url(https://shop.56yhz.com/images%5Clogin/homepage.png) no-repeat 0 top;*/
 }
 
 .fl {
@@ -498,23 +503,23 @@ export default {
 
 .unslider-arrow.prev {
   left: 0;
-  background: url(http://47.98.167.5/images%5Clogin/slide_l.png) no-repeat
+  background: url(https://shop.56yhz.com/images%5Clogin/slide_l.png) no-repeat
     center center;
 }
 
 .unslider-arrow.prev:hover {
-  background: url(http://47.98.167.5/images%5Clogin/slide_l_1.png) no-repeat
+  background: url(https://shop.56yhz.com/images%5Clogin/slide_l_1.png) no-repeat
     center center;
 }
 
 .unslider-arrow.next {
   right: 0;
-  background: url(http://47.98.167.5/images%5Clogin/slide_r.png) no-repeat
+  background: url(https://shop.56yhz.com/images%5Clogin/slide_r.png) no-repeat
     center center;
 }
 
 .unslider-arrow.next:hover {
-  background: url(http://47.98.167.5/images%5Clogin/slide_r_1.png) no-repeat
+  background: url(https://shop.56yhz.com/images%5Clogin/slide_r_1.png) no-repeat
     center center;
 }
 

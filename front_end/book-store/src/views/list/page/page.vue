@@ -2,7 +2,7 @@
   <div>
     <footer class="footer" style="margin-top: 30px">
       <div class="footerK">
-        <div class="pageNav">
+        <div class="pageNav" v-if="totalPage > 1">
           <span
             v-for="page in apages"
             :key="page"
@@ -105,7 +105,7 @@ footer {
 
   color: #939393;
   border: none;
-  tencursor: pointer;
+  cursor: pointer;
 }
 .cPageNum {
   color: #333333;

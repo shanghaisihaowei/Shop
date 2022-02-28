@@ -210,7 +210,7 @@ export default {
   margin-bottom: 15px;
   padding-top: 32px;
   padding-left: 190px;
-  /* background:url(http://47.98.167.5/images%5Cregister/logo.png) no-repeat 0 center;*/
+  /* background:url(https://shop.56yhz.com/images%5Cregister/logo.png) no-repeat 0 center;*/
 }
 .index-logo {
   position: absolute;
@@ -228,7 +228,7 @@ export default {
   margin-top: 48px;
   padding-left: 20px;
   color: #fff;
-  /*  background:url(http://47.98.167.5/images%5Cregister/homepage.png) no-repeat 0 top;*/
+  /*  background:url(https://shop.56yhz.com/images%5Cregister/homepage.png) no-repeat 0 top;*/
 }
 .fl {
   float: left !important;
@@ -283,21 +283,21 @@ export default {
 }
 .unslider-arrow.prev {
   left: 0;
-  background: url(http://47.98.167.5/images%5Cregister/slide_l.png) no-repeat
-    center center;
+  background: url(https://shop.56yhz.com/images%5Cregister/slide_l.png)
+    no-repeat center center;
 }
 .unslider-arrow.prev:hover {
-  background: url(http://47.98.167.5/images%5Cregister/slide_l_1.png) no-repeat
-    center center;
+  background: url(https://shop.56yhz.com/images%5Cregister/slide_l_1.png)
+    no-repeat center center;
 }
 .unslider-arrow.next {
   right: 0;
-  background: url(http://47.98.167.5/images%5Cregister/slide_r.png) no-repeat
-    center center;
+  background: url(https://shop.56yhz.com/images%5Cregister/slide_r.png)
+    no-repeat center center;
 }
 .unslider-arrow.next:hover {
-  background: url(http://47.98.167.5/images%5Cregister/slide_r_1.png) no-repeat
-    center center;
+  background: url(https://shop.56yhz.com/images%5Cregister/slide_r_1.png)
+    no-repeat center center;
 }
 .hd-login > h1 {
   float: left;
