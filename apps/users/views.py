@@ -83,11 +83,11 @@ class SmsSendCodeView(CreateModelMixin,viewsets.GenericViewSet):
         # 验证手机号码是否合法
         username = self.request.data.get('username')
         if not re.match(REGEX_MOBILE, username):
-            raise APIException({"detail": "手机格式不合法"})
+            return Response({"detail": "手机格式不合法"})
 
         # 手机是否注册
         if not User.objects.filter(mobile=username).exists():
-            raise APIException({"detail": "用户名错误"})
+            return Response({"detail": "用户名错误"})
         # 验证码发送频率
         one_mintes_ago = datetime.now() - timedelta(hours=0, minutes=1, seconds=0)
         # 添加时间大于一分钟以前。也就是距离现在还不足一分钟
@@ -264,4 +264,4 @@ class IndexView(View):
 
 
 favicon_view = RedirectView.as_view(
-    url='http://127.0.0.1:8000/static/tyadmin/static/logo.f0355d39.svg', permanent=True)
+    url='http://127.0.0.1:8000/static/tyadmin/static/logo.png', permanent=True)
