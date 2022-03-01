@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
     <div class="cate-menu" id="cate-menu">
-      <h3 v-if="isObject">
+      <h3 v-if="isObject" style="min-height: 49px">
         <div style="padding: 10px">
           <strong>{{ currentCategoryName }}</strong
           ><span style="font-size: 12px; float: right" id="total_count"
@@ -9,7 +9,7 @@
           >
         </div>
       </h3>
-      <dl>
+      <dl v-if="cateMenu.length >= 1">
         <div v-for="item in cateMenu" :key="item.id">
           <dt
             style="margin-left: 10px; cursor: pointer"

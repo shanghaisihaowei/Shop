@@ -2,7 +2,7 @@
   <div>
     <div class="w-max ct bgwh mb30 ovh border-eee">
       <div class="newopro-l fl">
-        <a href=""><img src="http://192.168.50.29:8000/static/tyadmin/static/100.png" width="224" height="478"></a>
+        <a href=""><img src="https://shop.56yhz.com/static/tyadmin/static/100.png" width="224" height="478"></a>
       </div>
       <div class="newopro-r fr">
         <h2 class="index-tt">

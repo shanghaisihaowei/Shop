@@ -256,6 +256,7 @@ export default {
     this.productId = this.$route.params.productId;
     var productId = this.productId;
     if (cookie.getCookie("token")) {
+      console.log(123);
       getFav(productId)
         .then((response) => {
           this.hasFav = true;

@@ -127,7 +127,13 @@
           id="keyword"
           v-model="searchWord"
         />
-        <button class="sea_submit" @click="searchSubmit">搜索</button>
+        <button
+          style="margin-top: -1px"
+          class="sea_submit"
+          @click="searchSubmit"
+        >
+          搜索
+        </button>
       </div>
       <div class="head_search_hot">
         <span>热搜榜：</span>
@@ -194,7 +200,7 @@
                     style="left: 215px; top: 0px"
                   >
                     <div class="J_subView">
-                      <div v-for="list in item.sub_cat">
+                      <div v-for="list in item.sub_cat" :key="list.id">
                         <dl>
                           <dt>
                             <router-link :to="'/app/home/list/' + list.id">{{
@@ -877,7 +883,7 @@ img {
 }
 
 .hd_nav_bd {
-  padding-left: 214px;
+  padding-left: 219px;
   position: relative;
   z-index: 1990;
   width: 982px;
