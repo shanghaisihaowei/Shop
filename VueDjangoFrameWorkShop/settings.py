@@ -313,3 +313,17 @@ BASE_URL = 'http://47.98.167.5:8000/'
 # 后台异步回调接口
 NOTIFY_URL = BASE_URL + "alipay/return/"
 ALIPAY_APPID = "2021003114699996"
+
+
+# 邮件服务器配置
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mxhichina.com'  # 如果是 163 改成 smtp.163.com
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'sihaowei@56yhz.com'  # 在这里填入您的QQ邮箱账号
+EMAIL_HOST_PASSWORD = 'EvtDpMFvzGbPrmI4'  # 请在这里填上您自己邮箱的授权码
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_FROM = 'GreaterWMS<sihaowei@56yhz.com>'
+EMAIL_USE_SSL = True
+
+
+PUBLIC_EMAIL = 'sihaowei@56yhz.com'
