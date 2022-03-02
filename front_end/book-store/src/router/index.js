@@ -195,7 +195,7 @@ var router = new Router({
                         name: 'list',
                         component: list,
                         meta: {
-                            title: '列表',
+                            title: '商品列表',
                             need_log: false
                         }
                     },
@@ -213,7 +213,7 @@ var router = new Router({
                         name: 'index',
                         component: index,
                         meta: {
-                            title: '首页',
+                            title: 'GreaterWMS - 开源商城',
                             need_log: false
                         }
                     },
@@ -324,7 +324,6 @@ router.beforeEach((to, from, next) => {
     } else {
         if (to != undefined) {
             if (to.meta.need_log) {
-                console.log(to.meta.need_log)
                 if (!store.state.userInfo.token) {
                     next({
                         path: '/app/login',

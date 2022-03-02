@@ -115,8 +115,17 @@
     </div>
     <div class="hd_main cle">
       <div class="logo">
-        <router-link to="/app/home/index" class="lizi_logo">
-          <img style="width: 30px" src="../../static/logo.svg" alt="dau" />
+        <router-link
+          to="/app/home/index"
+          class="lizi_logo"
+          style="display: flex; align-items: center"
+        >
+          <img
+            style="width: 30px; margin-right: 15px"
+            src="https://shop.56yhz.com/static/tyadmin/static/logo.svg"
+            alt="dau"
+          />
+          <span style="font-size: 18px; color: #333333">开源商城</span>
         </router-link>
       </div>
       <div class="search_box">
@@ -145,7 +154,7 @@
           {{ item.keywords }}
         </router-link>
       </div>
-      <div class="intro">
+      <div class="intro" style="margin-top: -7px">
         <ul>
           <li class="no1">
             <h4>正品保障</h4>
@@ -760,7 +769,7 @@ img {
 .logo {
   position: absolute;
   left: 10px;
-  top: 5px;
+  top: 10px;
   z-index: 2;
 }
 
