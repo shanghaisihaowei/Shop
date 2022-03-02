@@ -12,7 +12,7 @@ from trade.models import ShoppingCart, OrderInfo, OrderGoods
 from trade.serializers import ShopCartSerializer, ShopCartDetailSerializer, OrderSerializer, OrderDetailSerializer
 from utils.permissions import IsOwnerOrReadOnly
 from goods.models import Goods
-
+from utils.send_email import seend_order_message
 class ShoppingCartViewset(viewsets.ModelViewSet):
     """
     购物车功能
@@ -234,5 +234,6 @@ class AlipayView(APIView):
                 existed_order.trade_no = trade_no
                 existed_order.pay_time = datetime.now()
                 existed_order.save()
+                seend_order_message(order_sn)
             # 将success返回给支付宝，支付宝就不会一直不停的继续发消息了。
             return Response("success")
