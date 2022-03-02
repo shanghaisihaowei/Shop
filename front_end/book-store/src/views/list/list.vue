@@ -87,10 +87,13 @@ export default {
   methods: {
     getAllData() {
       if (this.$route.params.id) {
+        this.pageType = "list";
         this.top_category = this.$route.params.id;
         this.getMenu(this.top_category); // 获取左侧菜单列表
       } else {
-        // this.getMenu(null); // 获取左侧菜单列表
+        //清空左侧菜单列表
+        this.cateMenu = "";
+        this.currentCategoryName = "";
         this.pageType = "search";
         this.searchWord = this.$route.params.keyword;
       }
@@ -166,7 +169,7 @@ export default {
     },
     getPriceRange() {
       this.$http
-        .post("http://192.168.50.29:8000/priceRange", {
+        .post("https://shop.56yhz.com/priceRange", {
           params: {
             proType: this.pageType, //商品类型
           },

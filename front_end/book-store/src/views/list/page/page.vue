@@ -5,7 +5,7 @@
         <div class="pageNav" v-if="totalPage > 1">
           <span
             v-for="page in apages"
-            :key="page"
+            :key="page.text"
             @click="pageCallback(page.page)"
             class="page"
             :class="[page.active ? 'cPageNum' : 'pageNum']"

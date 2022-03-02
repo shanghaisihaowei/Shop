@@ -281,6 +281,9 @@ export default {
       //删除数量
       if (this.goods.goods_list[index].nums <= 1) {
         this.deleteGoods(index, id);
+        setTimeout(() => {
+          location.reload();
+        }, 500);
       } else {
         updateShopCart(id, {
           nums: this.goods.goods_list[index].nums - 1,
