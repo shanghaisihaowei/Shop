@@ -63,7 +63,7 @@ class MobileView(ViewSet):
 import re
 from VueDjangoFrameWorkShop.settings import REGEX_MOBILE
 
-
+from utils.send_email import seend_order_message
 class SmsSendCodeView(CreateModelMixin,viewsets.GenericViewSet):
     authentication_classes = ()
     serializer_class = SmsModelSerializer
@@ -96,7 +96,6 @@ class SmsSendCodeView(CreateModelMixin,viewsets.GenericViewSet):
         code = self.generate_code()
         res = SmsCode()
         sms_status = res.send(username,'1316599',code)  # 登录验证码
-        print(sms_status)
         if sms_status != 'Ok':
             return Response({
                 "detail": '短信发送失败'

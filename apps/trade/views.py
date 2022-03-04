@@ -96,7 +96,7 @@ class DelShoppingCartView(ViewSet):
             shop_cart.delete()
         return Response(status=204)
 
-
+from rest_framework import status
 
 class OrderViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin,
                    viewsets.GenericViewSet):
@@ -134,7 +134,20 @@ class OrderViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.Crea
 
             shop_cart.delete()
         return order
-
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        Order_obj = OrderInfo.objects.filter(user=self.request.user.pk, order_sn=instance).first()
+        if Order_obj:
+            print(Order_obj.pay_status)
+            if str(Order_obj.pay_status) == 'TRADE_SUCCESS':
+                seend_order_message(instance, 0)
+                self.perform_destroy(instance)
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            else:
+                self.perform_destroy(instance)
+                return Response(status=status.HTTP_204_NO_CONTENT)
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 from rest_framework.views import APIView
 from utils.alipay import AliPay
@@ -180,6 +193,7 @@ class AlipayView(APIView):
                 existed_order.save()
 
             response = redirect("/index/#/app/home/member/order")
+
             # response.set_cookie("nextPath","pay", max_age=3)
             return response
         else:
@@ -217,7 +231,6 @@ class AlipayView(APIView):
             order_sn = processed_dict.get('out_trade_no', None)
             trade_no = processed_dict.get('trade_no', None)
             trade_status = processed_dict.get('trade_status', None)
-
             # 查询数据库中存在的订单
             existed_orders = OrderInfo.objects.filter(order_sn=order_sn)
             for existed_order in existed_orders:
@@ -234,6 +247,7 @@ class AlipayView(APIView):
                 existed_order.trade_no = trade_no
                 existed_order.pay_time = datetime.now()
                 existed_order.save()
-                seend_order_message(order_sn)
+            order_str=order_sn
+            seend_order_message(order_str,1)
             # 将success返回给支付宝，支付宝就不会一直不停的继续发消息了。
             return Response("success")
