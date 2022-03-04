@@ -256,7 +256,6 @@ export default {
     this.productId = this.$route.params.productId;
     var productId = this.productId;
     if (cookie.getCookie("token")) {
-      console.log(123);
       getFav(productId)
         .then((response) => {
           this.hasFav = true;
@@ -274,8 +273,8 @@ export default {
       //  请求商品详情
       getGoodsDetail(this.productId)
         .then((response) => {
-          console.log(response.data);
           this.proDetail = response.data;
+          document.title = this.proDetail.name;
           this.curShow = this.proDetail.images[0];
           if (this.proDetail.goods_num <= 0) {
             this.hasSale = true;
