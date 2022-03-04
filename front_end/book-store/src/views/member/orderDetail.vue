@@ -69,10 +69,10 @@
                   <th width="9%" align="center" bgcolor="#ffffff">购买数量</th>
                   <th width="20%" align="center" bgcolor="#ffffff">小计</th>
                 </tr>
-                <tr v-for="item in orderInfo.goods">
+                <tr v-for="item in orderInfo.goods" :key="item.id">
                   <td bgcolor="#ffffff">
                     <router-link
-                      :to="'/app/home/productDetail/' + item.id"
+                      :to="'/app/home/productDetail/' + item.goods.id"
                       class="f6"
                       >{{ item.goods.name }}</router-link
                     >

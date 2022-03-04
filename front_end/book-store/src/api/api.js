@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 let local_host = 'https://shop.56yhz.com'
+// let local_host = 'http://192.168.50.29:8000'
+
 export const currentLo = params => { return axios.post(`${local_host}/currentLoc/`, params) }
 //清空购物车
 export const clearAll = params => { return axios.delete(`${local_host}/delshopcarts/`) }
